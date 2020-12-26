@@ -128,6 +128,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\LecturerController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <Content Include="Assets\Admin\css\sb-admin-2.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.min.css" />
+    <Content Include="Assets\Admin\js\lecturer\lecturer.js" />
     <Content Include="Assets\Admin\js\student\student.js" />
     <Content Include="Assets\Admin\vendor\fontawesome\css\all.css" />
     <Content Include="Assets\Admin\vendor\fontawesome\css\all.min.css" />
@@ -1931,6 +1933,7 @@
     <Content Include="Assets\Admin\vendor\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Lecturer\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Lecturer\Index.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
