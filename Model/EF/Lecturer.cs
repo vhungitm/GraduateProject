@@ -9,6 +9,10 @@ namespace Model.EF
     [Table("Lecturer")]
     public partial class Lecturer
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd77d12d6e4d67197270758365421882143f9baf
         public long Id { get; set; }
 
         [Required]
@@ -31,8 +35,7 @@ namespace Model.EF
         [StringLength(10)]
         public string Gender { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime Birthday { get; set; }
+        public string Birthday { get; set; }
 
         [Required]
         [StringLength(200)]

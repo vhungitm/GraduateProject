@@ -84,8 +84,8 @@ var controller = {
             var id = $(this).data('id');
 
             bootbox.confirm({
-                title: "Xóa Sinh Viên",
-                message: "Xóa sinh viên này khỏi CSDL?",
+                title: "Xóa Giảng Viên",
+                message: "Xóa giảng viên này khỏi CSDL?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Hủy'
