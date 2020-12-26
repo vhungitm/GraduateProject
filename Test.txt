@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Hùng làm phần này
+=======
+Toàn làm phần này
+>>>>>>> efdadb2f71bd1b7b6c1a6030b2cdd37c66009f12
