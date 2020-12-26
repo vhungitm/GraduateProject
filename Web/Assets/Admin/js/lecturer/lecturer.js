@@ -1,4 +1,6 @@
 ﻿var config = {
+    title: ['Giảng Viên', 'giảng viên'],
+    link: '/Admin/Lecturer/',
     search: '',
     status: 2,
     pageSize: 5,
@@ -35,7 +37,7 @@ var controller = {
 
         $('#btnDelete').off('click').on('click', function () {
             bootbox.confirm({
-                title: "Xóa Giảng Viên?",
+                title: "Xóa " + config.title[1],
                 message: "Xóa giảng viên đã chọn khỏi CSDL?",
                 buttons: {
                     cancel: {
