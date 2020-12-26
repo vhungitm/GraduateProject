@@ -35,8 +35,8 @@ var controller = {
 
         $('#btnDelete').off('click').on('click', function () {
             bootbox.confirm({
-                title: "Xóa Thể Loại Sách?",
-                message: "Xóa thể loại sách đã chọn khỏi CSDL?",
+                title: "Xóa Sinh Viên?",
+                message: "Xóa sinh viên đã chọn khỏi CSDL?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Hủy'
@@ -84,8 +84,8 @@ var controller = {
             var id = $(this).data('id');
 
             bootbox.confirm({
-                title: "Xóa Thể Loại Sách",
-                message: "Xóa thể loại sách này khỏi CSDL?",
+                title: "Xóa Sinh Viên",
+                message: "Xóa sinh viên này khỏi CSDL?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Hủy'
@@ -107,12 +107,12 @@ var controller = {
             var btn = $(this);
 
             bootbox.confirm({
-                title: "Thay Đổi Trạng Thái Hiển Thị",
-                message: "Thay đổi trạng thái hiển thị của cuốn sách này?",
+                title: "Thay Đổi Trạng Thái Kích Hoạt",
+                message: "Thay đổi trạng thái kích hoạt của tài khoản này?",
 
                 buttons: {
                     cancel: {
-                        label: '<i class="fa fa-times"></i> Hủy'
+                        label: '<i class="fa fa-times"></i> Không'
                     },
                     confirm: {
                         label: '<i class="fa fa-check"></i> Đồng ý'
@@ -204,9 +204,9 @@ var controller = {
 
                     for (var i = result.length - 1; i >= 0; i--) {
                         if (result[i])
-                            message += 'Xóa thành công thể loại sách #' + id[i] + '</br>';
+                            message += 'Xóa thành công sinh viên #' + id[i] + '</br>';
                         else
-                            message += 'Xóa không thành công thể loại sách #' + id[i] + '</br>';
+                            message += 'Xóa không thành công sinh viên #' + id[i] + '</br>';
                     }
 
                     bootbox.alert({ message: message });
@@ -430,16 +430,16 @@ var controller = {
 
             success: function (response) {
                 if (response.status) {
-                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị thể loại sách thành công!' });
+                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
 
                     controller.loadData();
                 } else {
-                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị thể loại sách thành công!' });
+                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
                 }
             },
 
             error: function () {
-                bootbox.alert({ message: 'Thay đổi trạng thái hiển thị thể loại sách thành công!' });
+                bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
             }
         })
     }
