@@ -1929,6 +1929,8 @@
     <Content Include="Assets\Admin\vendor\fontawesome\webfonts\fa-solid-900.ttf" />
     <Content Include="Assets\Admin\vendor\fontawesome\webfonts\fa-solid-900.woff" />
     <Content Include="Assets\Admin\vendor\fontawesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Lecturer\View.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
