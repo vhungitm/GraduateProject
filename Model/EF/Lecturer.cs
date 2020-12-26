@@ -7,12 +7,8 @@ namespace Model.EF
     using System.Data.Entity.Spatial;
 
     [Table("Lecturer")]
-    public partial class Lecturer
-    {
-<<<<<<< HEAD
-=======
+    public partial class Lecturer { 
 
->>>>>>> cd77d12d6e4d67197270758365421882143f9baf
         public long Id { get; set; }
 
         [Required]

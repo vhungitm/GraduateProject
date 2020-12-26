@@ -1,4 +1,6 @@
 ﻿var config = {
+    title: 'sinh viên',
+    link: '/Admin/Student/',
     search: '',
     status: 2,
     pageSize: 5,
@@ -35,8 +37,8 @@ var controller = {
 
         $('#btnDelete').off('click').on('click', function () {
             bootbox.confirm({
-                title: "Xóa Sinh Viên?",
-                message: "Xóa sinh viên đã chọn khỏi CSDL?",
+                title: "Xóa",
+                message: "Xóa những " + config.title + " đã chọn khỏi CSDL?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Hủy'
@@ -77,15 +79,15 @@ var controller = {
             controller.loadDetail(id);
             $('#modalUpdateTitle').text("Cập Nhật Thông Tin");
             $('#modalUpdate').modal('show');
-            
+
         });
 
         $('.button-delete').off('click').on('click', function () {
             var id = $(this).data('id');
 
             bootbox.confirm({
-                title: "Xóa Sinh Viên",
-                message: "Xóa sinh viên này khỏi CSDL?",
+                title: "Xóa",
+                message: "Xóa " + config.title + " này khỏi CSDL?",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> Hủy'
@@ -108,7 +110,7 @@ var controller = {
 
             bootbox.confirm({
                 title: "Thay Đổi Trạng Thái Kích Hoạt",
-                message: "Thay đổi trạng thái kích hoạt của tài khoản này?",
+                message: "Thay đổi trạng thái kích hoạt tài khoản của " + config.title + " này?",
 
                 buttons: {
                     cancel: {
@@ -192,7 +194,7 @@ var controller = {
         });
 
         $.ajax({
-            url: '/Admin/Student/Delete',
+            url: config.link + 'Delete',
             data: { id: id },
             type: 'POST',
             dataType: 'json',
@@ -204,20 +206,20 @@ var controller = {
 
                     for (var i = result.length - 1; i >= 0; i--) {
                         if (result[i])
-                            message += 'Xóa thành công sinh viên #' + id[i] + '</br>';
+                            message += 'Xóa ' + config.title + ' #' + id[i] + ' thành công!</br>';
                         else
-                            message += 'Xóa không thành công sinh viên #' + id[i] + '</br>';
+                            message += 'Xóa ' + config.title + ' #' + id[i] + ' không thành công!</br>';
                     }
 
                     bootbox.alert({ message: message });
                     controller.loadData();
                 } else {
-                    bootbox.alert({ message: 'Xóa không thành công!' });
+                    bootbox.alert({ message: 'Lỗi hệ thống! Xóa ' + config.title + ' không thành công!' });
                 }
             },
 
             error: function () {
-                bootbox.alert({ message: 'Xóa không thành công!' });
+                bootbox.alert({ message: 'Lỗi hệ thống! Xóa ' + config.title + ' không thành công!' });
             }
         });
     },
@@ -229,7 +231,7 @@ var controller = {
 
     loadDetail: function (id) {
         $.ajax({
-            url: '/Admin/Student/LoadDetail',
+            url: config.link + 'LoadDetail',
             data: { id: id },
             type: 'GET',
             dataType: 'json',
@@ -253,7 +255,7 @@ var controller = {
                     $('#ckbChangeStatus label').text(data.Status ? 'Kích hoạt' : 'Khóa');
                 }
             }
-            
+
         });
     },
 
@@ -287,7 +289,7 @@ var controller = {
         };
 
         $.ajax({
-            url: '/Admin/Student/SaveData',
+            url: config.link + 'SaveData',
             data: { model: model },
             type: 'POST',
             dataType: 'json',
@@ -295,44 +297,49 @@ var controller = {
             success: function (response) {
                 if (response.status) {
                     $("#modalUpdate").modal('hide');
-                    
+
                     controller.resetConfig();
-                    bootbox.alert({ message: id == 0 ? "Thêm mới thành công!" : "Cập nhật thông tin thành công!" });
+                    bootbox.alert({ message: id == 0 ? "Thêm mới " + config.title + " thành công!" : "Cập nhật thông tin " + config.title + " thành công!" });
 
                     controller.loadData();
                 } else {
-                    bootbox.alert({ message: "Lỗi!" });
+                    bootbox.alert({ message: id == 0 ? "Thêm mới " + config.title + " không thành công!" : "Cập nhật thông tin " + config.title + " không thành công!" });
                 }
             },
 
             error: function () {
-                bootbox.alert({ message: "Lỗi!" });
+                bootbox.alert({ message: id == 0 ? "Thêm mới " + config.title + " không thành công!" : "Cập nhật thông tin " + config.title + " không thành công!" });
             }
         })
     },
 
     delete: function (id) {
         $.ajax({
-            url: '/Admin/Student/Delete',
+            url: config.link + 'Delete',
             data: { id: id },
             type: 'POST',
             dataType: 'json',
+
             success: function (response) {
                 if (response.status) {
                     controller.resetConfig();
                     controller.loadData();
                     $('#modalUpdate').modal('hide');
-                    bootbox.alert({
-                        message: "Xóa thành công!"
-                    });
+                    bootbox.alert({ message: "Xóa " + config.title + " thành công!" });
+                } else {
+                    bootbox.alert({ message: "Xóa " + config.title + " không thành công!" });
                 }
             },
+
+            error: function () {
+                bootbox.alert({ message: "Lỗi hệ thống! Xóa " + config.title + " không thành công!" });
+            }
         });
     },
 
     loadData: function () {
         $.ajax({
-            url: '/Admin/Student/LoadData',
+            url: config.link + 'LoadData',
             data: {
                 search: config.search,
                 status: config.status,
@@ -368,7 +375,7 @@ var controller = {
                             Address: item.Address,
                             Phone: item.Phone,
                             Email: item.Email,
-                            ClassId: item.ClassId,
+                            FacultyId: item.FacultyId,
                             Status: item.Status ? 'checked' : '',
                             StatusTitle: item.Status ? 'Kích hoạt' : 'Khóa'
                         });
@@ -385,6 +392,13 @@ var controller = {
                     return;
                 }
 
+                $('#btnCheckAll').hide();
+                $('#btnDelete').removeClass().addClass('d-none');
+                controller.resetPage(0);
+                $('#tblData').html("<div class='alert alert-danger' style='margin-bottom: -15px'>Không có dữ liệu<div>");
+            },
+
+            error: function () {
                 $('#btnCheckAll').hide();
                 $('#btnDelete').removeClass().addClass('d-none');
                 controller.resetPage(0);
@@ -423,23 +437,23 @@ var controller = {
         var id = btn.data('id');
 
         $.ajax({
-            url: '/Admin/Student/ChangeStatus',
+            url: config.link + 'ChangeStatus',
             data: { id: id },
             type: 'POST',
             dataType: 'json',
 
             success: function (response) {
                 if (response.status) {
-                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
+                    bootbox.alert({ message: 'Thay đổi trạng thái kích hoạt tài khoản của ' + config.title + ' thành công!' });
 
                     controller.loadData();
                 } else {
-                    bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
+                    bootbox.alert({ message: 'Thay đổi trạng thái kích hoạt tài khoản của ' + config.title + ' không thành công!' });
                 }
             },
 
             error: function () {
-                bootbox.alert({ message: 'Thay đổi trạng thái hiển thị sinh viên thành công!' });
+                bootbox.alert({ message: 'Lỗi hệ thống! Thay đổi trạng thái kích hoạt tài khoản của ' + config.title + ' không thành công!' });
             }
         })
     }
