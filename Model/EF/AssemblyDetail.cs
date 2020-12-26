@@ -23,9 +23,5 @@ namespace Model.EF
         public string Comment { get; set; }
 
         public double? Point { get; set; }
-
-        public virtual Assembly Assembly { get; set; }
-
-        public virtual Lecturer Lecturer { get; set; }
     }
 }

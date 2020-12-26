@@ -9,8 +9,6 @@ namespace Model.EF
     [Table("Student")]
     public partial class Student
     {
-        public Student() { }
-
         public long Id { get; set; }
 
         [Required]

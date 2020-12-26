@@ -9,13 +9,6 @@ namespace Model.EF
     [Table("Project")]
     public partial class Project
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
-        {
-            Assemblies = new HashSet<Assembly>();
-            ProjectStages = new HashSet<ProjectStage>();
-        }
-
         public long Id { get; set; }
 
         [Required]
@@ -34,17 +27,5 @@ namespace Model.EF
         public string Submission { get; set; }
 
         public double? Point { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Assembly> Assemblies { get; set; }
-
-        public virtual Lecturer Lecturer { get; set; }
-
-        public virtual ProjectType ProjectType { get; set; }
-
-        public virtual Student Student { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProjectStage> ProjectStages { get; set; }
     }
 }

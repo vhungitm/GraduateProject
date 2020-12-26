@@ -9,13 +9,6 @@ namespace Model.EF
     [Table("Lecturer")]
     public partial class Lecturer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Lecturer()
-        {
-            AssemblyDetails = new HashSet<AssemblyDetail>();
-            Projects = new HashSet<Project>();
-        }
-
         public long Id { get; set; }
 
         [Required]
@@ -56,13 +49,5 @@ namespace Model.EF
         public long FacultyId { get; set; }
 
         public bool Status { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AssemblyDetail> AssemblyDetails { get; set; }
-
-        public virtual Faculty Faculty { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
     }
 }

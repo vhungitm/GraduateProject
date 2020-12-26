@@ -50,8 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\AssemblyDetailDAO.cs" />
+    <Compile Include="DAO\ClassDAO.cs" />
+    <Compile Include="DAO\ProjectStageDAO.cs" />
+    <Compile Include="DAO\ProjectTypeDAO.cs" />
+    <Compile Include="DAO\FacultyDAO.cs" />
     <Compile Include="DAO\LecturerDAO.cs" />
+    <Compile Include="DAO\AssemblyDAO.cs" />
+    <Compile Include="DAO\ProjectDAO.cs" />
     <Compile Include="DAO\StudentDAO.cs" />
+    <Compile Include="DAO\BranchDAO.cs" />
+    <Compile Include="DAO\TranningSystemDAO.cs" />
     <Compile Include="EF\Assembly.cs" />
     <Compile Include="EF\AssemblyDetail.cs" />
     <Compile Include="EF\Branch.cs" />

@@ -32,7 +32,5 @@ namespace Model.EF
         public double? Comment { get; set; }
 
         public bool Status { get; set; }
-
-        public virtual Project Project { get; set; }
     }
 }

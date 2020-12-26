@@ -139,6 +139,7 @@
   <ItemGroup>
     <Content Include="Assets\Admin\css\sb-admin-2.css" />
     <Content Include="Assets\Admin\css\sb-admin-2.min.css" />
+    <Content Include="Assets\Admin\js\lecturer\lecturer.js" />
     <Content Include="Assets\Admin\js\student\student.js" />
     <Content Include="Assets\Admin\vendor\fontawesome\css\all.css" />
     <Content Include="Assets\Admin\vendor\fontawesome\css\all.min.css" />
