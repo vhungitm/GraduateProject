@@ -1,7 +1,14 @@
-namespace Model.EF
+namespace Model.ViewModel
 {
-    public class Lecturer { 
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+    using Model.EF;
 
+    public partial class StudentVM
+    {
         public long Id { get; set; }
 
         public string Username { get; set; }
@@ -22,9 +29,7 @@ namespace Model.EF
 
         public string Email { get; set; }
 
-        public long FacultyId { get; set; }
-
-        public string Faculty { get; set; }
+        public virtual Class Class { get; set; }
 
         public bool Status { get; set; }
     }

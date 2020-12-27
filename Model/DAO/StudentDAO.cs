@@ -3,6 +3,7 @@ using System.Linq;
 using Model.EF;
 using System.Data.SqlClient;
 using System;
+using Model.ViewModel;
 
 namespace Model.DAO
 {
@@ -26,7 +27,7 @@ namespace Model.DAO
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Student>("uspGetStudents @Search, @Status, @Page, @PageSize", sp).ToList();
+                return db.Database.SqlQuery<Student>("uspGetStudents").ToList();
             }
             catch (Exception) { return null; }
         }

@@ -74,6 +74,7 @@
     <Compile Include="EF\Student.cs" />
     <Compile Include="EF\TranningSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Student.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
