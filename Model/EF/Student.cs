@@ -30,7 +30,7 @@ namespace Model.EF
 
         public string Faculty { get; set; }
 
-        public string TrannningSystem { get; set; }
+        public string TranningSystem { get; set; }
 
         public string CollegeYear { get; set; }
 

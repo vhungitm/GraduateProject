@@ -27,7 +27,7 @@ namespace Model.DAO
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Student>("uspGetStudents").ToList();
+                return db.Database.SqlQuery<Student>("uspGetStudents @Search, @Status, @Page, @PageSize", sp).ToList();
             }
             catch (Exception) { return null; }
         }

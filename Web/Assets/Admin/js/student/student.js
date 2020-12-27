@@ -375,7 +375,11 @@ var controller = {
                             Address: item.Address,
                             Phone: item.Phone,
                             Email: item.Email,
-                            FacultyId: item.FacultyId,
+                            Class: item.Class,
+                            Faculty: item.Faculty,
+                            Branch: item.Branch,
+                            TranningSystem: item.TranningSystem,
+                            CollegeYear: item.CollegeYear,
                             Status: item.Status ? 'checked' : '',
                             StatusTitle: item.Status ? 'Kích hoạt' : 'Khóa'
                         });
