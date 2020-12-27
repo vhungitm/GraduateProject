@@ -128,6 +128,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BranchController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FacultyController.cs" />
     <Compile Include="Areas\Admin\Controllers\LecturerController.cs" />
     <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -1753,6 +1756,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\Class\" />
+    <Folder Include="Areas\Admin\Views\Faculty\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Shared\" />

@@ -2,6 +2,9 @@
     title: 'giảng viên',
     link: '/Admin/Lecturer/',
     search: '',
+    faculty: '',
+    branch: '',
+    class: '',
     status: 2,
     pageSize: 5,
     pageIndex: 1,
@@ -137,6 +140,9 @@ var controller = {
 
     resetConfig: function () {
         config.search = '';
+        config.faculty = '';
+        config.branch = '';
+        config.class = '';
         config.status = 2;
         pageSize = 5;
         pageIndex = 1;
@@ -146,7 +152,11 @@ var controller = {
 
     search: function () {
         controller.resetConfig();
+
         config.search = $('#txtSearch').val();
+        config.faculty = $('#slFacultySearch option:selected').val();
+        config.branch = $('#slBranchSearch option:selected').val();
+        config.class = $('#slClassSearch option:selected').val();
 
         controller.loadData();
     },

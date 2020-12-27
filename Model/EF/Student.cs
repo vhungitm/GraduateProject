@@ -26,11 +26,17 @@ namespace Model.EF
 
         public string Class { get; set; }
 
+        public long BranchId { get; set; }
+
         public string Branch { get; set; }
+
+        public long FacultyId { get; set; }
 
         public string Faculty { get; set; }
 
-        public string TranningSystem { get; set; }
+        public long TrainingSystemId { get; set; }
+
+        public string TrainingSystem { get; set; }
 
         public string CollegeYear { get; set; }
 

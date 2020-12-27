@@ -21,9 +21,9 @@ namespace Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadData(string search, int status, int page = 1, int pageSize = 5)
+        public JsonResult LoadData(string search = "", string faculty = "", string branch = "", string className = "", int status = 2, int page = 1, int pageSize = 5)
         {
-            var data = dao.GetStudents(search, status, page, pageSize);
+            var data = dao.GetStudents(search, faculty, branch, className, status, page, pageSize);
 
             return Json(new
             {

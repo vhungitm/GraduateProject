@@ -15,19 +15,22 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<Student> GetStudents(string search, int status, int page, int pageSize)
+        public List<Student> GetStudents(string search, string faculty, string branch, string className, int status, int page, int pageSize)
         {
             try
             {
                 SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@Search", search),
+                    new SqlParameter("@Faculty", faculty),
+                    new SqlParameter("@Branch", branch),
+                    new SqlParameter("@Class", className),
                     new SqlParameter("@Status", status),
                     new SqlParameter("@Page", page),
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Student>("uspGetStudents @Search, @Status, @Page, @PageSize", sp).ToList();
+                return db.Database.SqlQuery<Student>("uspGetStudents @Search, @Faculty, @Branch, @Class, @Status, @Page, @PageSize", sp).ToList();
             }
             catch (Exception) { return null; }
         }

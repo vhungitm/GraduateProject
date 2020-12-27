@@ -2,6 +2,9 @@
     title: 'sinh viên',
     link: '/Admin/Student/',
     search: '',
+    faculty: '',
+    branch: '',
+    class: '',
     status: 2,
     pageSize: 5,
     pageIndex: 1,
@@ -13,6 +16,7 @@ var controller = {
     init: function () {
         controller.loadData();
         controller.registerEvent();
+        controller.loadFilter();
     },
 
     registerEvent: function () {
@@ -21,6 +25,8 @@ var controller = {
         });
 
         $('#btnReset').off('click').on('click', function () {
+            controller.loadFilter();
+
             controller.resetConfig();
             controller.loadData();
         });
@@ -59,14 +65,31 @@ var controller = {
             controller.saveData();
         });
 
+        $('#slFaculty').on('change', function () {
+            var faculty = $('#slFaculty option:selected').text();
+            controller.getBranches(1, "-- Chọn Chuyên Ngành --", faculty);
+            $('#slClass').html("<option value='0'>-- Chọn Lớp --</option>");
+        });
+
+        $('#slFacultySearch').on('change', function () {
+            var faculty = $('#slFacultySearch option:selected').text();
+            controller.getBranches(0, "-- Chọn Chuyên Ngành --", faculty);
+            $('#slClassSearch').html("<option value='0'>-- Chọn Lớp --</option>");
+        });
+
+        $('#slBranch').on('change', function () {
+            var className = $('#slBranch option:selected').text();
+            controller.getClasses("-- Chọn Lớp --", className);
+        });
+
+        $('#slBranchSearch').on('change', function () {
+            var className = $('#slBranchSearch option:selected').text();
+            controller.getClasses(0, "-- Chọn Lớp --", className);
+        });
+
         $('#ckbChangeStatus').off('click').on('click', function () {
             var label = $('#ckbStatus').prop('checked') ? 'Kích hoạt' : 'Khóa';
             $('#ckbChangeStatus label').text(label);
-        });
-
-        $('.btn-filter-status').off('click').on('click', function (e) {
-            e.preventDefault();
-            controller.filterByStatus($(this).data('id'));
         });
 
         $('.checkbox-item').off('click').on('click', function () {
@@ -130,6 +153,11 @@ var controller = {
         });
     },
 
+    loadFilter: function () {
+        $('#filter').html($("#filterContent").html());
+        controller.getFaculties(0, '');
+    },
+
     filterByStatus: function (status) {
         config.status = status;
         controller.loadData();
@@ -137,6 +165,9 @@ var controller = {
 
     resetConfig: function () {
         config.search = '';
+        config.faculty = '';
+        config.branch = '';
+        config.class = '';
         config.status = 2;
         pageSize = 5;
         pageIndex = 1;
@@ -146,7 +177,18 @@ var controller = {
 
     search: function () {
         controller.resetConfig();
-        config.search = $('#txtSearch').val();
+
+        var txtSearch = $('#txtSearch');
+        var slFaculty = $('#slFacultySearch option:selected');
+        var slBranch = $('#slBranchSearch option:selected');
+        var slClass = $('#slClassSearch option:selected');
+        var slStatus = $('#slStatusSearch option:selected');
+
+        config.search = txtSearch.val();
+        config.faculty = slFaculty.val() > 0 ? slFaculty.text() : '';
+        config.branch = slBranch.val() > 0 ? slBranch.text() : '';
+        config.class = slClass.val() > 0 ? slClass.text() : '';
+        config.status = slStatus.val();
 
         controller.loadData();
     },
@@ -164,8 +206,8 @@ var controller = {
 
         $('#btnCheckAll').html(
             config.isCheckAll
-                ? "<i class='fas fa-times fa-sm text-white-50'></i> Bỏ chọn tất cả"
-                : "<i class='fas fa-check fa-sm text-white-50'></i> Chọn tất cả"
+                ? "<i class='fas fa-times fa-sm text-white-50'></i> Bỏ Chọn Tất Cả"
+                : "<i class='fas fa-check fa-sm text-white-50'></i> Chọn Tất Cả"
         );
 
         $('#btnDelete').removeClass().addClass(config.isCheckAll ? 'btn btn-sm btn-danger shadow-sm' : 'd-none');
@@ -227,6 +269,7 @@ var controller = {
     resetForm: function () {
         $("#frmUpdate").trigger('reset');
         $('#ckbChangeStatus label').text('Kích hoạt');
+        controller.getFaculties(1, "-- Chọn Khoa --");
     },
 
     loadDetail: function (id) {
@@ -240,17 +283,21 @@ var controller = {
                 if (response.status) {
                     var data = response.data;
 
+                    controller.getFaculties(1, data.Faculty);
+                    controller.getBranches(1, data.Branch, data.Faculty);
+                    controller.getClasses(1, data.Class, data.Branch);
+
                     $('#nbrId').val(data.Id);
                     $('#txtUsername').val(data.Username);
                     $('#txtPassword').val(data.Password);
                     $('#txtAvatar').val(data.Avatar);
+                    $('#imgAvatar').attr("src", data.Avatar);
                     $('#txtFullName').val(data.FullName);
-                    $('#txtGender').val(data.Gender);
+                    $('#slGender').val(data.Gender);
                     $('#dtBirthday').val(data.Birthday);
                     $('#txtAddress').val(data.Address);
                     $('#txtPhone').val(data.Phone);
                     $('#txtEmail').val(data.Email);
-                    $('#txtClassId').val(data.ClassId);
                     $('#ckbStatus').prop('checked', data.Status);
                     $('#ckbChangeStatus label').text(data.Status ? 'Kích hoạt' : 'Khóa');
                 }
@@ -265,12 +312,12 @@ var controller = {
         var password = $('#txtPassword').val();
         var avatar = $('#txtAvatar').val();
         var fullName = $('#txtFullName').val();
-        var gender = $('#txtGender').val();
+        var gender = $('#slGender option:selected').text();
         var birthday = $('#dtBirthday').val();
         var address = $('#txtAddress').val();
         var phone = $('#txtPhone').val();
         var email = $('#txtEmail').val();
-        var classId = $('#txtClassId').val();
+        var classId = $('#slClass option:selected').val();
         var status = $('#ckbStatus').prop('checked');
 
         var model = {
@@ -342,6 +389,9 @@ var controller = {
             url: config.link + 'LoadData',
             data: {
                 search: config.search,
+                faculty: config.faculty,
+                branch: config.branch,
+                className: config.class,
                 status: config.status,
                 page: config.pageIndex,
                 pageSize: config.pageSize
@@ -378,7 +428,7 @@ var controller = {
                             Class: item.Class,
                             Faculty: item.Faculty,
                             Branch: item.Branch,
-                            TranningSystem: item.TranningSystem,
+                            TrainingSystem: item.TrainingSystem,
                             CollegeYear: item.CollegeYear,
                             Status: item.Status ? 'checked' : '',
                             StatusTitle: item.Status ? 'Kích hoạt' : 'Khóa'
@@ -460,6 +510,77 @@ var controller = {
                 bootbox.alert({ message: 'Lỗi hệ thống! Thay đổi trạng thái kích hoạt tài khoản của ' + config.title + ' không thành công!' });
             }
         })
+    },
+
+    getFaculties: function (type, name) {
+        $.ajax({
+            url: '/Admin/Faculty/GetFaculties',
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.status == true) {
+                    var data = response.data;
+                    var html = "<option value='0'>-- Chọn Khoa --</option>";
+
+                    $.each(data, function (i, item) {
+                        html += "<option value='" + item.Id + "' " + (name == item.Name ? "selected" : "") + ">" + item.Name + "</option>";
+                    });
+
+                    $(type == 0 ? '#slFacultySearch' : '#slFaculty').html(html);
+                } else {
+                    bootbox.alert({ message: "Lỗi hệ thống! Lấy danh sách khoa không thành công!" });
+                }
+            }
+        });
+    },
+
+    getBranches: function (type, name, faculty) {
+        $.ajax({
+            url: '/Admin/Branch/GetBranches',
+            data: { faculty: faculty },
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.status == true) {
+                    var data = response.data;
+                    var html = "<option value='0'>-- Chọn Chuyên Ngành --</option>";
+
+                    $.each(data, function (i, item) {
+                        html += "<option value='" + item.Id + "' " + (name == item.Name ? "selected" : "") + ">" + item.Name + "</option>";
+                    });
+
+                    $(type == 0 ? '#slBranchSearch' : '#slBranch').html(html);
+                } else {
+                    bootbox.alert({ message: "Lỗi hệ thống! Lấy danh sách chuyên ngành không thành công!" });
+                }
+            }
+        });
+    },
+
+    getClasses: function (type, name, branch) {
+        $.ajax({
+            url: '/Admin/Class/GetClasses',
+            data: { branch: branch },
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.status == true) {
+                    var data = response.data;
+                    var html = "<option value='0'>-- Chọn Lớp --</option>";
+
+                    $.each(data, function (i, item) {
+                        html += "<option value='" + item.Id + "' " + (name == item.Name ? "selected" : "") + ">" + item.Name + "</option>";
+                    });
+
+                    $(type == 0 ? '#slClassSearch' : '#slClass').html(html);
+                } else {
+                    bootbox.alert({ message: "Lỗi hệ thống! Lấy danh sách lớp không thành công!" });
+                }
+            }
+        });
     }
 }
 

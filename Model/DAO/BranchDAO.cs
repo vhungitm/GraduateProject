@@ -14,18 +14,19 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<Branch> getBranches(string search, int page, int pageSize)
+        public List<Branch> getBranches(string search, string faculty, int page, int pageSize)
         {
             try
             {
                 SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@Search", search),
+                    new SqlParameter("@Faculty", faculty),
                     new SqlParameter("@Page", page),
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Branch>("uspGetBranches @Search, @Page, @PageSize", sp).ToList();
+                return db.Database.SqlQuery<Branch>("uspGetBranches @Search, @Faculty, @Page, @PageSize", sp).ToList();
             }
             catch (Exception) { return null; }
         }

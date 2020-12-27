@@ -14,18 +14,21 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<Class> GetClasses(string search, int page, int pageSize)
+        public List<Class> GetClasses(string search, string faculty, string branch, string trainingSystem, int page, int pageSize)
         {
             try
             {
                 SqlParameter[] sp = new SqlParameter[]
                 {
                     new SqlParameter("@Search", search),
+                    new SqlParameter("@Faculty", faculty),
+                    new SqlParameter("@Branch", branch),
+                    new SqlParameter("@TrainingSystem", trainingSystem),
                     new SqlParameter("@Page", page),
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Class>("uspGetClasses @Search, @Page, @PageSize", sp).ToList();
+                return db.Database.SqlQuery<Class>("uspGetClasses @Search, @Faculty, @Branch, @TrainingSystem, @Page, @PageSize", sp).ToList();
             }
             catch (Exception) { return null; }
         }
@@ -39,7 +42,7 @@ namespace Model.DAO
                     new SqlParameter("@Name", model.Name),
                     new SqlParameter("@BranchId", model.BranchId),
                     new SqlParameter("@Size", model.Size),
-                    new SqlParameter("@TranningSystemId", model.TranningSystemId),
+                    new SqlParameter("@TranningSystemId", model.TrainingSystemId),
                     new SqlParameter("@CollegeYear", model.CollegeYear),
                 };
 
@@ -58,11 +61,11 @@ namespace Model.DAO
                     new SqlParameter("@Name", model.Name),
                     new SqlParameter("@BranchId", model.BranchId),
                     new SqlParameter("@Size", model.Size),
-                    new SqlParameter("@TranningSystemId", model.TranningSystemId),
+                    new SqlParameter("@TrainingSystemId", model.TrainingSystemId),
                     new SqlParameter("@CollegeYear", model.CollegeYear),
                 };
 
-                return db.Database.ExecuteSqlCommand("uspUpdateClass @Id, @Name, @BranchId, @Size, @TranningSystemId, @CollegeYear", sp);
+                return db.Database.ExecuteSqlCommand("uspUpdateClass @Id, @Name, @BranchId, @Size, @TrainingSystemId, @CollegeYear", sp);
             }
             catch (Exception) { return 0; }
         }
