@@ -17,6 +17,7 @@ var controller = {
         controller.loadData();
         controller.registerEvent();
         controller.loadFilter();
+        controller.loadForm();
     },
 
     registerEvent: function () {
@@ -36,7 +37,7 @@ var controller = {
         });
 
         $('#btnAdd').off('click').on('click', function () {
-            controller.resetForm();
+            controller.loadForm();
             $('#modalUpdateTitle').text("Thêm Mới");
             $('#modalUpdate').modal('show');
         });
@@ -59,6 +60,16 @@ var controller = {
                     }
                 }
             });
+        });
+
+        $('#btnShowPassword').off('click').on('click', function (e) {
+            e.preventDefault();
+
+            var isShow = ($('#txtPassword').attr('type') == 'text' ? true : false);
+            $(this).attr('class', isShow ? 'btn btn-primary btn-icon-split' : 'btn btn-danger btn-icon-split');
+            $('#btnShowPassword i').attr('class', isShow ? 'fas fa-eye' : 'fas fa-eye-slash');
+            $('#btnShowPassword .text').text(isShow ? 'Hiển Thị' : 'Ẩn');
+            $('#txtPassword').attr('type', isShow ? 'password' : 'text');
         });
 
         $('#btnSaveData').off('click').on('click', function () {
@@ -266,15 +277,15 @@ var controller = {
         });
     },
 
-    resetForm: function () {
-        $("#frmUpdate").trigger('reset');
-        $('#ckbChangeStatus label').text('Kích hoạt');
-        controller.getFaculties(1, "-- Chọn Khoa --");
+    loadForm: function () {
+        var html = $('#frmUpdateContent').html();
+        $('#frmUpdate').html(html);
+        controller.getFaculties(1, '');
     },
 
     loadDetail: function (id) {
         $.ajax({
-            url: config.link + 'LoadDetail',
+            url: config.link + 'GetStudent',
             data: { id: id },
             type: 'GET',
             dataType: 'json',
@@ -346,6 +357,7 @@ var controller = {
                     $("#modalUpdate").modal('hide');
 
                     controller.resetConfig();
+                    controller.loadFilter();
                     bootbox.alert({ message: id == 0 ? "Thêm mới " + config.title + " thành công!" : "Cập nhật thông tin " + config.title + " thành công!" });
 
                     controller.loadData();
@@ -386,7 +398,7 @@ var controller = {
 
     loadData: function () {
         $.ajax({
-            url: config.link + 'LoadData',
+            url: config.link + 'GetStudents',
             data: {
                 search: config.search,
                 faculty: config.faculty,

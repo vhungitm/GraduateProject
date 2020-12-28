@@ -94,14 +94,14 @@ namespace Model.DAO
             catch (Exception) { return 0; }
         }
 
-        public Student GetDetail(long id)
+        public Student GetStudent(long id)
         {
             try
             {
                 SqlParameter sp = new SqlParameter("@Id", id);
                 return db.Database.SqlQuery<Student>("uspGetStudent @Id", sp).SingleOrDefault();
             }
-            catch (Exception) { return null; }
+            catch (Exception) { return new Student(); }
         }
 
         public int ChangeStatus(long id)
@@ -109,7 +109,7 @@ namespace Model.DAO
             try
             {
                 SqlParameter sp = new SqlParameter("@Id", id);
-                return db.Database.SqlQuery<int>("uspChangeStudentStatus @Id", sp).SingleOrDefault();
+                return db.Database.ExecuteSqlCommand("uspChangeStudentStatus @Id", sp);
             }
             catch (Exception) { return -1; }
         }

@@ -46,6 +46,8 @@
     </div>
     <!-- End of Content Body -->
 
+    <div id="frmUpdate"></div>
+
     <script id="tblHeader" type="x-tmpl-mustache">
         <thead>
             <tr align="center">
@@ -132,125 +134,129 @@
             <span class="text">Làm Mới</span>
         </button>
     </script>
+
+    <script id="frmUpdateContent" type="x-tmpl-mustache">
+        <!-- Modal -->
+        <div class="modal fade modal-l" id="modalUpdate" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalUpdateTitle">Cập Nhật Thông Tin</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- End of Modal Header -->
+
+                    <div class="modal-body">
+                        <!-- Form -->
+                        <form id="frmUpdate">
+                            <div class="form-group">
+                                <input type="number" name="nbrId" id="nbrId" hidden class="form-control" value="0" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtUsername">Mã Số Sinh Viên</label>
+                                <input type="text" name="txtUsername" id="txtUsername" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPassword">Mật Khẩu</label>
+                                <div class="input-group">
+                                    <input type="password" name="txtPassword" id="txtPassword" class="form-control" />
+                                    <div class="input-group-append">
+                                        <button id="btnShowPassword" class="btn btn-primary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-eye"></i>
+                                            </span>
+                                            <span class="text">Hiển Thị&nbsp;&nbsp;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtAvatar">Ảnh Đại Diện</label>
+                                <div class="input-group">
+                                    <input type="text" name="txtAvatar" id="txtAvatar" class="form-control" />
+                                    <div class="input-group-append">
+                                        <button id="btnSelectAvatar" class="btn btn-primary btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-image"></i>
+                                            </span>
+                                            <span class="text">Chọn Ảnh</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="txtFullName">Họ tên</label>
+                                <input type="text" name="txtFullName" id="txtFullName" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="slGender">Giới Tính</label>
+                                <select type="text" name="slGender" id="slGender" class="form-control">
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dtBirthday">Ngày Sinh</label>
+                                <input type="date" name="dtBirthday" id="dtBirthday" class="form-control" value="1998-01-01"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtAddress">Địa Chỉ</label>
+                                <input type="text" name="txtAddress" id="txtAddress" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPhone">Số Điện Thoại</label>
+                                <input type="text" name="txtPhone" id="txtPhone" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtEmail">Email</label>
+                                <input type="text" name="txtEmail" id="txtEmail" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label for="slFaculty">Khoa</label>
+                                <select id="slFaculty" name="slFaculty" class="form-control">
+                                    <option value="0">-- Chọn Khoa --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="slBranch">Chuyên Ngành</label>
+                                <select id="slBranch" name="slBranch" class="form-control">
+                                    <option value="0">-- Chọn Chuyên Ngành --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="slClass">Lớp</label>
+                                <select id="slClass" name="slClass" class="form-control">
+                                    <option value="0">-- Chọn Lớp --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch" id="ckbChangeStatus">
+                                    <input type="checkbox" class="custom-control-input" id="ckbStatus" checked />
+                                    <label class="custom-control-label" for="ckbStatus">Kích Hoạt</label>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- End of Form -->
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Hủy</button>
+                        <button type="button" class="btn btn-primary" id="btnSaveData"><i class="fa fa-check"></i> Hoàn thành</button>
+                    </div>
+                    <!-- End of Modal Footer -->
+
+                </div>
+            </div>
+        </div>
+        <!-- End of Modal -->
+    </script>
 </div>
 <!-- End of Content -->
 
-<!-- Modal -->
-<div class="modal fade modal-l" id="modalUpdate" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalUpdateTitle">Cập Nhật Thông Tin</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <!-- End of Modal Header -->
 
-            <div class="modal-body">
-                <!-- Form -->
-                <form id="frmUpdate">
-                    <div class="form-group">
-                        <input type="number" name="nbrId" id="nbrId" hidden class="form-control" value="0" />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtUsername">Mã Số Sinh Viên</label>
-                        <input type="text" name="txtUsername" id="txtUsername" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtPassword">Mật Khẩu</label>
-                        <div class="input-group">
-                            <input type="password" name="txtPassword" id="txtPassword" class="form-control" />
-                            <div class="input-group-append">
-                                <button id="btnShowPassword" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-eye"></i>
-                                    </span>
-                                    <span class="text">Hiển Thị&nbsp;&nbsp;</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtAvatar">Ảnh Đại Diện</label>
-                        <div class="input-group">
-                            <input type="text" name="txtAvatar" id="txtAvatar" class="form-control" />
-                            <div class="input-group-append">
-                                <button id="btnSelectAvatar" class="btn btn-primary btn-icon-split">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                    </span>
-                                    <span class="text">Chọn Ảnh</span>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="txtFullName">Họ tên</label>
-                        <input type="text" name="txtFullName" id="txtFullName" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="slGender">Giới Tính</label>
-                        <select type="text" name="slGender" id="slGender" class="form-control">
-                            <option>Nam</option>
-                            <option>Nữ</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dtBirthday">Ngày Sinh</label>
-                        <input type="date" name="dtBirthday" id="dtBirthday" class="form-control" value="1998-01-01"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtAddress">Địa Chỉ</label>
-                        <input type="text" name="txtAddress" id="txtAddress" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtPhone">Số Điện Thoại</label>
-                        <input type="text" name="txtPhone" id="txtPhone" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtEmail">Email</label>
-                        <input type="text" name="txtEmail" id="txtEmail" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="slFaculty">Khoa</label>
-                        <select id="slFaculty" name="slFaculty" class="form-control">
-                            <option value="0">-- Chọn Khoa --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="slBranch">Chuyên Ngành</label>
-                        <select id="slBranch" name="slBranch" class="form-control">
-                            <option value="0">-- Chọn Chuyên Ngành --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="slClass">Lớp</label>
-                        <select id="slClass" name="slClass" class="form-control">
-                            <option value="0">-- Chọn Lớp --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-switch" id="ckbChangeStatus">
-                            <input type="checkbox" class="custom-control-input" id="ckbStatus" checked />
-                            <label class="custom-control-label" for="ckbStatus">Kích Hoạt</label>
-                        </div>
-                    </div>
-                </form>
-                <!-- End of Form -->
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Hủy</button>
-                <button type="button" class="btn btn-primary" id="btnSaveData"><i class="fa fa-check"></i> Hoàn thành</button>
-            </div>
-            <!-- End of Modal Footer -->
-
-        </div>
-    </div>
-</div>
-<!-- End of Modal -->

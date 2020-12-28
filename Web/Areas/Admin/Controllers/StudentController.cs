@@ -16,85 +16,112 @@ namespace Web.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            
             return View();
         }
 
         [HttpGet]
-        public JsonResult LoadData(string search = "", string faculty = "", string branch = "", string className = "", int status = 2, int page = 1, int pageSize = 5)
+        public JsonResult GetStudents(string search = "", string faculty = "", string branch = "", string className = "", int status = 2, int page = 1, int pageSize = 100)
         {
-            var data = dao.GetStudents(search, faculty, branch, className, status, page, pageSize);
-
-            return Json(new
+            try
             {
-                status = true,
-                data = data,
-                totalRow = data.Count()
-            }, JsonRequestBehavior.AllowGet); ;
+                var data = dao.GetStudents(search, faculty, branch, className, status, page, pageSize);
+
+                return Json(new
+                {
+                    status = true,
+                    data = data,
+                    totalRow = data.Count()
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new
+                {
+                    status = false
+                });
+            }
         }
 
         [HttpPost]
         public JsonResult SaveData(Student model)
         {
-            int result = 0;
-            
+            int status = 0;
+
             if (model.Id == 0)
             {
                 // Thêm mới
-                result = dao.Insert(model);
+                status = dao.Insert(model);
             }
             else
             {
                 // Cập nhật
-                result = dao.Update(model);
+                status = dao.Update(model);
             }
              
             return Json(new
             {
-                status = result,
+                status = status,
             });
         }
 
         [HttpPost]
         public JsonResult Delete(long[] id)
         {
-            var dao = new StudentDAO();
-            long [] result = new long[id.Length];
-
-            for (int i = 0; i < id.Length; i++)
+            try
             {
-                result[i] = dao.Delete(id[i]);
+                var dao = new StudentDAO();
+                long[] result = new long[id.Length];
+
+                for (int i = 0; i < id.Length; i++)
+                {
+                    result[i] = dao.Delete(id[i]);
+                }
+
+                return Json(new
+                {
+                    status = true,
+                    result = result
+                });
+            } catch (Exception) {
+                return Json(new
+                {
+                    status = false
+                });
             }
-
-            return Json(new
-            {
-                status = true,
-                result = result
-            });
         }
 
         [HttpGet]
-        public JsonResult LoadDetail(long id)
+        public JsonResult getStudent(long id)
         {
-            var detail = new StudentDAO().GetDetail(id);
+            try
+            {
+                var data = new StudentDAO().GetStudent(id);
 
-            var status = detail == null ? 0 : 1;
-            return Json(new {
-                status = status,
-                data = detail
-            }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    status = true,
+                    data = data
+                }, JsonRequestBehavior.AllowGet);
+            } catch (Exception)
+            {
+                return Json(new
+                {
+                    status = false
+                });
+            }
         }
 
-        [HttpPost]
+        [HttpGet]
         public JsonResult ChangeStatus(long id)
         {
-            var result = new StudentDAO().ChangeStatus(id);
+            int result = new StudentDAO().ChangeStatus(id);
+            bool status = result != -1 ? true : false;
 
             return Json(new
             {
-                status = true,
+                status = status,
                 result = result
-            });
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
