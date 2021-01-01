@@ -1,0 +1,187 @@
+﻿@{
+    ViewBag.Title = "Đồ án của tôi";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+@section Scripts {
+    <script src="~/Plugins/bootbox/bootbox.all.min.js"></script>
+    <script src="~/Scripts/mustache.min.js"></script>
+    <script src="~/Scripts/pagination.min.js"></script>
+    <script src="~/Scripts/Client/Project/project.js"></script>
+}
+
+<div class="card m-3 p-3">
+    <!-- Project header -->
+    <div class="d-flex justify-content-between mb-2">
+        <span class="lead">
+            Đề tài phụ trách
+        </span>
+        <button id="btnAddProject" class="ml-auto btn btn-success btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">Thêm mới đề tài</span>
+        </button>
+    </div>
+    <div id="projectFilter"></div>
+    <div id="projectData" class="pb-3"></div>
+    <div id="pagination"></div>
+</div>
+<!-- Project filter-->
+<script id="projectFilterContent" type="x-tmpl-mustache">
+    <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
+        <div class="col-12">
+            <input id="txtNameSearch" type="text" class="form-control" placeholder="Tên đồ án">
+        </div>
+        <div class="col-12">
+            <input id="txtStudentSearch"  type="text" class="form-control" placeholder="Tên / Mã số sinh viên">
+        </div>
+        <div class="col-12">
+            <select id="slYearSearch" class="form-control">
+                <option>-- Chọn Năm Học --</option>
+                @for (int i = 2013; i <= DateTime.Now.Year; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div class="col-12">
+            <select id="slClassIdSearch" class="form-control">
+                <option value="0">-- Chọn Lớp --</option>
+                <option value="2">D17PM01</option>
+                <option value="3">D17PM02</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <button id="btnSearch" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span class="text">Tìm kiếm</span>
+            </button>
+        </div>
+        <div id="btnReset" class="col-12">
+            <button class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-sync"></i>
+                </span>
+                <span class="text">Làm mới</span>
+            </button>
+        </div>
+    </div>
+</script>
+
+<!-- Project item -->
+<script id="projectItem" type="x-tmpl-mustache">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="card-title">{{Name}}</h6>
+                <small class="card-text mb-5">Sinh viên thực hiện: {{Student}}</small>
+                <div>
+                    <a href="/Project/Detail/{{Id}}" class="btn btn-primary btn-icon-split mt-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                        <span class="text">Xem chi tiết</span>
+                    </a>
+                    <button data-id="{{Id}}" class="button-delete btn btn-danger btn-icon-split mt-2">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                        <span class="text">Xóa</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- Add Project Modal -->
+<div class="modal" id="modalAddProject" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmAddProject">
+                    <div class="mb-3">
+                        <label class="form-label" for="txtName">Tên đề tài</label>
+                        <input class="form-control" id="txtName" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Loại đồ án</label>
+                        <select class="form-control" id="slTypeId">
+                            <option value="1">Đồ án tốt nghiệp</option>
+                            <option value="2">Khóa luận tốt nghiệp</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mã sinh viên</label>
+                        <input class="form-control" id="txtStudentId" />
+                        <div id="txtStudentName"></div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">Ngày bắt đầu</label>
+                                <input id="dtStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Giờ </label>
+                                <select id="slStartHour" class="form-control">
+                                    @for (int i = 1; i <= 24; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Phút </label>
+                                <select id="slStartMinute" class="form-control">
+                                    @for (int i = 1; i <= 60; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">Ngày kết thúc</label>
+                                <input id="dtEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Giờ </label>
+                                <select id="slEndHour" class="form-control">
+                                    @for (int i = 1; i <= 24; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Phút </label>
+                                <select id="slEndMinute" class="form-control">
+                                    @for (int i = 1; i <= 60; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Hủy</button>
+                <button id="btnSaveProject" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Hoàn thành</button>
+            </div>
+        </div>
+    </div>
+</div>

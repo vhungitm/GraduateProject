@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Model.EF;
+using System.Text;
+using System.Threading.Tasks;
 using System.Data.SqlClient;
-using System;
-using Model.ViewModel;
+using Model.EF;
 
 namespace Model.DAO
 {
@@ -15,103 +16,46 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<Student> GetStudents(string search, string faculty, string branch, string className, int status, int page, int pageSize)
+        public List<Student> GetStudents(string fullName, string username, long facultyId, long branchId, long classId, long trainingSystemId, int page, int pageSize)
         {
             try
             {
-                SqlParameter[] sp = new SqlParameter[]
+                SqlParameter[] sqlParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@Search", search),
-                    new SqlParameter("@Faculty", faculty),
-                    new SqlParameter("@Branch", branch),
-                    new SqlParameter("@Class", className),
-                    new SqlParameter("@Status", status),
+                    new SqlParameter("@FullName", fullName),
+                    new SqlParameter("@Username", username),
+                    new SqlParameter("@FacultyId", facultyId),
+                    new SqlParameter("@BranchId", branchId),
+                    new SqlParameter("@ClassId", classId),
+                    new SqlParameter("@TrainingSystemId", trainingSystemId),
                     new SqlParameter("@Page", page),
                     new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.SqlQuery<Student>("uspGetStudents @Search, @Faculty, @Branch, @Class, @Status, @Page, @PageSize", sp).ToList();
+                return db.Database.SqlQuery<Student>("uspGetStudents @FullName, @Username, @FacultyId, @BranchId, @ClassId, @TrainingSystemId, @Page, @PageSize", sqlParameters).ToList();
             }
             catch (Exception) { return null; }
         }
 
-        public int Insert(Student model)
+        public Student GetStudent(string fullName, string username, long facultyId, long branchId, long classId, long trainingSystemId, int page, int pageSize)
         {
             try
             {
-                SqlParameter[] sp = new SqlParameter[]
+                SqlParameter[] sqlParameters = new SqlParameter[]
                 {
-                    new SqlParameter("@Username", model.Username),
-                    new SqlParameter("@Password", model.Password),
-                    new SqlParameter("@Avatar", model.Avatar),
-                    new SqlParameter("@FullName", model.FullName),
-                    new SqlParameter("@Gender", model.Gender),
-                    new SqlParameter("@Birthday", model.Birthday),
-                    new SqlParameter("@Address", model.Address),
-                    new SqlParameter("@Phone", model.Phone),
-                    new SqlParameter("@Email", model.Email),
-                    new SqlParameter("@ClassId", model.ClassId),
-                    new SqlParameter("@Status", model.Status),
+                    new SqlParameter("@FullName", fullName),
+                    new SqlParameter("@Username", username),
+                    new SqlParameter("@FacultyId", facultyId),
+                    new SqlParameter("@BranchId", branchId),
+                    new SqlParameter("@ClassId", classId),
+                    new SqlParameter("@TrainingSystemId", trainingSystemId),
+                    new SqlParameter("@Page", page),
+                    new SqlParameter("@PageSize", pageSize)
                 };
 
-                return db.Database.ExecuteSqlCommand("uspInsertStudent @Username, @Password, @Avatar, @FullName, @Gender, @Birthday, @Address, @Phone, @Email, @ClassId, @Status", sp);
+                return db.Database.SqlQuery<Student>("uspGetStudents @FullName, @Username, @FacultyId, @BranchId, @ClassId, @TrainingSystemId, @Page, @PageSize", sqlParameters).SingleOrDefault();
             }
-            catch (Exception) { return 0; }
-        }
-
-        public int Update(Student model)
-        {
-            try
-            {
-                SqlParameter[] sp = new SqlParameter[]
-                {
-                    new SqlParameter("@Id", model.Id),
-                    new SqlParameter("@Username", model.Username),
-                    new SqlParameter("@Password", model.Password),
-                    new SqlParameter("@Avatar", model.Avatar),
-                    new SqlParameter("@FullName", model.FullName),
-                    new SqlParameter("@Gender", model.Gender),
-                    new SqlParameter("@Birthday", model.Birthday),
-                    new SqlParameter("@Address", model.Address),
-                    new SqlParameter("@Phone", model.Phone),
-                    new SqlParameter("@Email", model.Email),
-                    new SqlParameter("@ClassId", model.ClassId),
-                    new SqlParameter("@Status", model.Status),
-                };
-
-                return db.Database.ExecuteSqlCommand("uspUpdateStudent @Id, @Username, @Password, @Avatar, @FullName, @Gender, @Birthday, @Address, @Phone, @Email, @ClassId, @Status", sp);
-            }
-            catch (Exception) { return 0; }
-        }
-
-        public int Delete(long id)
-        {
-            try
-            {
-                SqlParameter sp = new SqlParameter("@Id", id);
-                return db.Database.ExecuteSqlCommand("uspDeleteStudent @Id", sp);
-            }
-            catch (Exception) { return 0; }
-        }
-
-        public Student GetStudent(long id)
-        {
-            try
-            {
-                SqlParameter sp = new SqlParameter("@Id", id);
-                return db.Database.SqlQuery<Student>("uspGetStudent @Id", sp).SingleOrDefault();
-            }
-            catch (Exception) { return new Student(); }
-        }
-
-        public int ChangeStatus(long id)
-        {
-            try
-            {
-                SqlParameter sp = new SqlParameter("@Id", id);
-                return db.Database.ExecuteSqlCommand("uspChangeStudentStatus @Id", sp);
-            }
-            catch (Exception) { return -1; }
+            catch (Exception) { return null; }
         }
     }
 }

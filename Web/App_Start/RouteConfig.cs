@@ -17,7 +17,14 @@ namespace Web
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "ThuVien.Controllers" }
+                namespaces: new[] { "Web.Controllers"}
+            );
+
+            routes.MapRoute(
+                name: "API",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Web.API.Controllers"}
             );
         }
     }

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <!-- CSS -->
+    <link href="~/Plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Plugins/fontawesome/css/all.css" rel="stylesheet" />
+    <link href="/Css/style.css" rel="stylesheet" />
+</head>
+<body class="body bg-light">
+    <nav class="fixed-top navbar navbar-expand navbar-light bg-white topbar static-top shadow">
+        <div class="container-fluid justify-content-between">
+            <a class="lead" href="/" title="Trang Chủ">
+                <img class="ml-3" src="https://sso.tdmu.edu.vn/self-service/assets/images/tdmu-icon-ldpi.png" width="50" height="50" title="Logo" />
+                P - Đại Học Thủ Dầu Một
+            </a>
+            <div class="rounded-pill p-1" style="background: #E7F3FF">
+                <img class="rounded-circle" width="30" height="30" src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-1/p200x200/125197543_718256672436372_1202568349413144130_o.jpg?_nc_cat=106&ccb=2&_nc_sid=7206a8&_nc_ohc=qx5gwhSaxaQAX-nyo6x&_nc_ht=scontent.fsgn5-6.fna&tp=6&oh=2cc69ab046fd535037cb30f4510bafb8&oe=600F8F9B" />
+                <b class="pl-5 text-primary">&nbsp;Văn Hùng&nbsp;&nbsp;</b>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Body Content -->
+    @RenderBody()
+
+    <!-- Scripts -->
+
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Plugins/bootstrap/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
