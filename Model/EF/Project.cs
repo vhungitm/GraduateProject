@@ -6,23 +6,27 @@ namespace Model.EF
 
         public string Name { get; set; }
 
-        public long TypeId { get; set; }
+        public long? TypeId { get; set; }
 
-        public string Type { get; set; }
+        public string TypeName { get; set; }
 
-        public long StudentId { get; set; }
+        public string StudentId { get; set; }
 
-        public string Student { get; set; }
+        public string StudentName { get; set; }
 
-        public long LecturerId { get; set; }
+        public string LecturerId { get; set; }
 
-        public string Lecturer { get; set; }
+        public string LecturerName { get; set; }
 
         public string CreatedDate { get; set; }
 
         public string StartDate { get; set; }
 
         public string EndDate { get; set; }
+
+        public string AssemblyName { get; set; }
+        
+        public string AssemblyCreatedDate { get; set; }
 
         public string SubmissionDate { get; set; }
 

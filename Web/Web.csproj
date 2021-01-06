@@ -128,11 +128,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProjectController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StudentController.cs" />
     <Compile Include="Areas\API\APIAreaRegistration.cs" />
     <Compile Include="Areas\API\Controllers\ProjectController.cs" />
+    <Compile Include="Areas\API\Controllers\StudentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1740,7 +1742,9 @@
     <Content Include="Plugins\fontawesome\webfonts\fa-brands-400.svg" />
     <Content Include="Plugins\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Plugins\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Scripts\Admin\Project\project.js" />
     <Content Include="Scripts\Admin\Student\student.js" />
+    <Content Include="Scripts\Client\Project\projectDetail.js" />
     <Content Include="Scripts\Client\Project\project.js" />
     <Content Include="Scripts\fontawesome.min.js" />
     <Content Include="Css\style.css" />
@@ -1748,6 +1752,7 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\mustache.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\sb-admin-2.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1760,7 +1765,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Views\Class\" />
     <Folder Include="Areas\Admin\Views\Faculty\" />
     <Folder Include="Areas\Admin\Views\Home\" />
@@ -1777,33 +1781,12 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Lecturer\View.cshtml" />
     <Content Include="Areas\Admin\Views\Lecturer\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Project\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Project\Detail.cshtml" />
     <Content Include="Views\Project\My.cshtml" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-grid.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-grid.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-grid.rtl.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-grid.rtl.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.rtl.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.rtl.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.rtl.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.rtl.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap.min.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap.rtl.css.map" />
-    <Content Include="Plugins\bootstrap\css\bootstrap.rtl.min.css.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.bundle.js.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.esm.js.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.esm.min.js.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.js.map" />
-    <Content Include="Plugins\bootstrap\js\bootstrap.min.js.map" />
     <Content Include="Plugins\fontawesome\less\brands.less" />
     <Content Include="Plugins\fontawesome\less\fontawesome.less" />
     <Content Include="Plugins\fontawesome\less\regular.less" />
@@ -1853,6 +1836,29 @@
     <Content Include="Plugins\fontawesome\webfonts\fa-solid-900.ttf" />
     <Content Include="Plugins\fontawesome\webfonts\fa-solid-900.woff" />
     <Content Include="Plugins\fontawesome\webfonts\fa-solid-900.woff2" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.rtl.css.map" />
+    <Content Include="Plugins\bootstrap\css\bootstrap.rtl.min.css.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.esm.js.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.esm.min.js.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Plugins\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Plugins\bootstrap\js\popper.min.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

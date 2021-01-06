@@ -2,9 +2,7 @@ namespace Model.EF
 {
     public class Lecturer { 
 
-        public long Id { get; set; }
-
-        public string Username { get; set; }
+        public string Id { get; set; }
 
         public string Password { get; set; }
 
@@ -22,7 +20,7 @@ namespace Model.EF
 
         public string Email { get; set; }
 
-        public long FacultyId { get; set; }
+        public string FacultyId { get; set; }
 
         public string Faculty { get; set; }
 

@@ -1,10 +1,9 @@
 ﻿var config = {
     title: 'sinh viên',
-    link: '/Admin/Student/',
-    search: '',
-    faculty: '',
-    branch: '',
-    class: '',
+    link: '/API/Student/',
+    id: '',
+    fullName: '',
+    classId: '',
     status: 2,
     pageSize: 1,
     pageIndex: 1,
@@ -400,10 +399,10 @@ var controller = {
         $.ajax({
             url: config.link + 'GetStudents',
             data: {
-                search: config.search,
-                faculty: config.faculty,
-                branch: config.branch,
-                className: config.class,
+                
+                facultyId: config.faculty,
+                branchId: config.branch,
+                classId: config.class,
                 status: config.status,
                 page: config.pageIndex,
                 pageSize: config.pageSize

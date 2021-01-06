@@ -1,16 +1,17 @@
 ﻿var config = {
     title: 'đề tài',
-    link: '/Project/',
+    link: '/API/Project/',
     name: '',
     student: '',
     year: 0,
-    classId: 0,
+    classId: '',
     pageIndex: 1,
     pageSize: 1,
     totalPages: 1
 };
 
 var controller = {
+
     init: function () {
         controller.loadData();
         controller.registerEvent();
@@ -18,6 +19,23 @@ var controller = {
     },
 
     registerEvent: function () {
+        $('#frmAddProject').validate({
+            rules: {
+                txtName: { required: true },
+                slTypeId: { required: true },
+                dtStartDate: { required: true },
+                slStartHour: { required: true },
+                slStartMinute: { required: true },
+                slEndDate: { required: true },
+                slEndHour: { required: true },
+                slEndMinute: { required: true },
+            },
+            messages: {
+                txtName: { required: 'Vui lòng nhập tên đề tài!' },
+                slTypeId: { required: 'Vui lòng chọn loại đề tài!' }
+            }
+        });
+
         $('#btnSearch').off('click').on('click', function (e) {
             e.preventDefault();
             controller.search();
@@ -31,8 +49,7 @@ var controller = {
         });
 
         $('#btnAddProject').off('click').on('click', function () {
-            $('#frmAddProject').trigger('reset');
-            $('#txtStudentName').removeAttr('class').removeAttr('data-id').text('');
+            controller.loadModal();
             $('#modalAddProject').modal('show');
         });
 
@@ -105,7 +122,7 @@ var controller = {
         });
 
         $('#txtStudentId').off('change').on('change', function () {
-            controller.getStudent($(this).val());
+            controller.loadStudent($(this).val());
         });
     },
 
@@ -113,14 +130,17 @@ var controller = {
         $('#projectFilter').html($("#projectFilterContent").html());
     },
 
+    loadModal: function () {
+        var modal = $('#modalAddProjectContent').html();
+        $('#modal').html(modal);
+        controller.registerEvent();
+    },
+
     resetConfig: function () {
         config.name = '';
         config.student = '';
         config.year = 0;
-        config.classId = 0;
-        pageIndex = 1;
-        pageSize = 5;
-        totalPages = 1;
+        config.classId = '';
     },
 
     search: function () {
@@ -135,44 +155,51 @@ var controller = {
     },
 
     addProject: function () {
-        var name = $('#txtName').val();
-        var typeId = $('#slTypeId option:selected').val();
-        var studentId = $('#txtStudentName').data('id');
-        var startDate = $('#dtStartDate').val() + ' ' + $('#slStartHour option:selected').val() + ':' + $('#slStartMinute option:selected').val();
-        var endDate = $('#dtEndDate').val() + ' ' + $('#slEndHour option:selected').val() + ':' + $('#slEndMinute option:selected').val();
+        var studentId = $('#txtStudentId').val();
+        controller.loadStudent(studentId);
+        var txtStudentName = $('#txtStudentName').text();
 
-        var model = {
-            Name: name,
-            TypeId: typeId,
-            StudentId: studentId,
-            StartDate: startDate,
-            EndDate: endDate
-        };
+        if ($('#frmAddProject').valid() && txtStudentName != 'Không tìm thấy sinh viên') {
+            var name = $('#txtName').val();
+            var typeId = $('#slTypeId option:selected').val();
+            var studentId = $('#txtStudentId').val();
+            var startDate = $('#dtStartDate').val() + ' ' + $('#slStartHour option:selected').val() + ':' + $('#slStartMinute option:selected').val();
+            var endDate = $('#dtEndDate').val() + ' ' + $('#slEndHour option:selected').val() + ':' + $('#slEndMinute option:selected').val();
 
-        $.ajax({
-            url: config.link + 'Insert',
-            data: { model: model },
-            type: 'POST',
-            dataType: 'json',
+            var model = {
+                Name: name,
+                TypeId: typeId,
+                StudentId: studentId,
+                LecturerId: lecturerId,
+                StartDate: startDate,
+                EndDate: endDate
+            };
 
-            success: function (response) {
-                if (response.status) {
-                    $("#modalAddProject").modal('hide');
+            $.ajax({
+                url: config.link + 'Insert',
+                data: { model: model },
+                type: 'POST',
+                dataType: 'json',
 
-                    controller.resetConfig();
-                    controller.loadFilter();
-                    bootbox.alert({ message: "Thêm mới " + config.title + " thành công!" });
+                success: function (response) {
+                    if (response.status) {
+                        $("#modalAddProject").modal('hide');
 
-                    controller.loadData();
-                } else {
+                        controller.resetConfig();
+                        controller.loadFilter();
+                        bootbox.alert({ message: "Thêm mới " + config.title + " thành công!" });
+
+                        controller.loadData();
+                    } else {
+                        bootbox.alert({ message: "Thêm mới " + config.title + " không thành công!" });
+                    }
+                },
+
+                error: function () {
                     bootbox.alert({ message: "Thêm mới " + config.title + " không thành công!" });
                 }
-            },
-
-            error: function () {
-                bootbox.alert({ message: "Thêm mới " + config.title + " không thành công!" });
-            }
-        })
+            });
+        };
     },
 
     delete: function (id) {
@@ -205,6 +232,7 @@ var controller = {
             data: {
                 name: config.name,
                 student: config.student,
+                lecturer: lecturerId,
                 year: config.year,
                 classId: config.classId,
                 page: config.pageIndex,
@@ -304,30 +332,28 @@ var controller = {
         });
     },
 
-    getStudent: function (id) {
-        var txtStudentName = $('#txtStudentName');
+    loadStudent: function (id) {
         $.ajax({
-            url: "/Student/GetStudent",
-            data: { username: id },
+            url: "/API/Student/GetStudent",
+            data: { id: id },
             type: 'GET',
             dataType: 'json',
             success: function (response) {
                 var data = response.data;
 
                 if (data != null) {
-                    txtStudentName.attr('class', 'alert alert-success mt-1');
-                    txtStudentName.attr('data-id', data.Id);
-                    txtStudentName.text(data.FullName);
+                    $('#txtStudentId').attr('class', 'form-control valid');
+                    $('#txtStudentName').removeAttr('style').attr('class', 'valid').attr('data-name', data.FullName).text(data.FullName);
                 }
                 else
                 {
-                    txtStudentName.attr('class', 'alert alert-danger mt-1').removeAttr('data-id');
-                    txtStudentName.text('Không tìm thấy sinh viên');
+                    $('#txtStudentId').attr('class', 'form-control error');
+                    $('#txtStudentName').removeAttr('style').attr('class', 'error').attr('data-name','').text('Không tìm thấy sinh viên');
                 }
             },
             error: function () {
-                txtStudentName.attr('class', 'alert alert-danger mt-1').removeAttr('data-id');
-                txtStudentName.text('Không tìm thấy sinh viên');
+                $('#txtStudentId').attr('class', 'form-control error');
+                $('#txtStudentName').removeAttr('style').attr('class', 'error').attr('data-name', '').text('Không tìm thấy sinh viên');
             }
         });
     }

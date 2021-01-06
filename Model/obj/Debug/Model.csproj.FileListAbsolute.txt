@@ -46,3 +46,16 @@ D:\NCKH\GraduateProject\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
 D:\NCKH\GraduateProject\Model\obj\Debug\Model.csproj.CopyComplete
 D:\NCKH\GraduateProject\Model\obj\Debug\Model.dll
 D:\NCKH\GraduateProject\Model\obj\Debug\Model.pdb
+E:\NCKH\GraduateProject\Model\bin\Debug\Microsoft.Web.Infrastructure.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Helpers.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Razor.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.Deployment.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.Razor.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Helpers.xml
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Razor.xml
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.xml
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.Deployment.xml
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.WebPages.Razor.xml
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Mvc.dll
+E:\NCKH\GraduateProject\Model\bin\Debug\System.Web.Mvc.xml

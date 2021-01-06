@@ -1,32 +1,21 @@
-﻿@model Model.EF.Project
-@{
+﻿@{
     ViewBag.Title = "Detail";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
 @section Scripts {
-    <script>
-        $('#btnUpdateProject').off('click').on('click', function () {
-            $('#modalUpdateProject').modal('show');
-        });
-
-        $('.button-update-project-stage').off('click').on('click', function () {
-            $('#modalUpdateProjectStage').modal('show');
-        });
-
-        $('#btnAddProjectStage').off('click').on('click', function () {
-            $('#modalUpdateProjectStage').modal('show');
-        });
-    </script>
-
+    <script>var id = @ViewBag.Id;</script>
+    <script src="~/Scripts/Client/Project/projectDetail.js"></script>
 }
 
-<div class="bg-primary p-3">
-    <h2 class="text-white text-center">@Model.Name</h2>
-    <p class="text-white text-center">Trang chủ / Đề tài / @Model.Name</p>
-</div>
+<div id="projectDetail"></div>
 
-<div class="container-fluid">
+<script id="projectDetailTemplate" type="x-tmpl-mustache">
+    <div class="bg-primary p-3">
+        <h2 class="text-white text-center">{{Name}}</h2>
+        <p class="text-white text-center">Trang chủ / Đề tài / {{Name}}</p>
+    </div>
+
     <div class="card project-card lead">
         <div>
             <div class="project-content">
@@ -34,9 +23,9 @@
                     <span class="text-primary">Thông tin đề tài</span>
                 </div>
                 <small>
-                    Loại đề tài: @Model.Type<br />
-                    Sinh viên thực hiện: @Model.Student<br />
-                    Giảng viên hướng dẫn: @Model.Lecturer<br />
+                    Loại đề tài: {{Type}}<br />
+                    Sinh viên thực hiện: {{StudentName}}<br />
+                    Giảng viên hướng dẫn: {{LecturerName}}<br />
                 </small>
             </div>
 
@@ -45,12 +34,22 @@
                     <span class="text-primary">Thời gian</span>
                 </div>
                 <small>
-                    Ngày tạo: @Model.CreatedDate <br />
-                    Thời gian bắt đầu: @Model.StartDate <br />
-                    Thời gian kết thúc: @Model.EndDate <br />
+                    Ngày tạo: {{CreatedDate}}<br />
+                    Thời gian bắt đầu: {{StartDate}}<br />
+                    Thời gian kết thúc: {{EndDate}}<br />
                 </small>
             </div>
 
+            <div class="project-content">
+                <div class="project-content-header d-flex justify-content-between">
+                    <span class="text-primary">Hội đồng</span>
+                    {{{AssemblyView}}}
+                </div>
+                <small>
+                    {{{AssemblyName}}}
+                    {{{AssemblyCreatedDate}}}
+                </small>
+            </div>
 
             <div class="project-content">
                 <div class="project-content-header d-flex justify-content-between">
@@ -59,28 +58,21 @@
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
-                @if (Model.Submission != null)
-                {
-                    <small>
-                        Trạng thái: Đã nộp<br />
-                        Thời gian nộp: @Model.SubmissionDate<br />
-                        Điểm: Chưa chấm
-                    </small>
-                }
-                else
-                {
-                    <small>Chưa nộp</small>
-                }
+                <small>
+                    Trạng thái: {{SubmissionStatus}}<br />
+                    {{{SubmissionDate}}}
+                    {{Point}}
+                </small>
             </div>
 
             <div>
-                <button id="btnUpdateProject" class="mb-2 btn btn-primary btn-icon-split">
+                <button id="btnUpdateProject" data-id="{{Id}}" class="mb-2 btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-edit"></i>
                     </span>
                     <span class="text">Cập nhật thông tin đề tài</span>
                 </button>
-                <button id="btnDeleteProject" class="mb-2 btn btn-danger btn-icon-split">
+                <button id="btnDeleteProject" data-id="{{Id}}" class="mb-2 btn btn-danger btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-trash"></i>
                     </span>
@@ -89,62 +81,7 @@
             </div>
         </div>
 
-        <div class="project-stage">
-            <div class="project-stage-header">
-                <span class="text-primary">Chương 1: Phân tích dự án</span>
-            </div>
-            <div class="project-stage-content">
-                <div class="project-stage-content-header">
-                    <span class="text-primary">1. Thời gian</span>
-                </div>
-                <small>
-                    Thời gian bắt đầu: 1/1/2020<br />
-                    Thời gian kết thúc: 8/1/2020<br />
-                </small>
-            </div>
-            <div class="project-stage-content">
-                <div class="project-stage-content-header d-flex justify-content-between">
-                    <span class="text-primary">1. Mục đích</span>
-                </div>
-                <small>
-                    Mục đích thực hiện?
-                </small>
-            </div>
-            <div class="project-stage-content">
-                <div class="project-stage-content-header">
-                    <span class="text-primary">3. Yêu cầu</span>
-                </div>
-                <small>Yêu cầu thực hiện thực hiện?</small>
-            </div>
-            <div class="project-stage-content">
-                <div class="project-stage-content-header d-flex justify-content-between">
-                    <span class="text-primary">4. Bài nộp</span>
-                    <button class="ml-auto button-update btn btn-primary btn-circle btn-sm" title="Xem bài nộp" data-id="36">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
-                <small>
-                    Trạng thái: Đã nộp<br />
-                    Thời gian nộp: 1/1/2021<br />
-                    Điểm: Chưa chấm
-                </small>
-            </div>
-
-            <div>
-                <button data-id="" class="button-update-project-stage mb-2 btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-edit"></i>
-                    </span>
-                    <span class="text">Cập nhật thông tin giai đoạn</span>
-                </button>
-                <button data-id="" class="button-delete-project-stage mb-2 btn btn-danger btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                    </span>
-                    <span class="text">Xóa giai đoạn</span>
-                </button>
-            </div>
-        </div>
+        <div id="projectStage"></div>
 
         <div class="project-tool">
             <button id="btnAddProjectStage" class="btn btn-primary btn-icon-split">
@@ -155,10 +92,112 @@
             </button>
         </div>
     </div>
+</script>
+
+<script id="projectStageTemplate" type="x-tmpl-mustache">
+    <div class="project-stage">
+        <div class="project-stage-header">
+            <span class="text-primary">{{Name}}</span>
+        </div>
+        <div class="project-stage-content">
+            <div class="project-stage-content-header">
+                <span class="text-primary">1. Thời gian</span>
+            </div>
+            <small>
+                Thời gian bắt đầu: {{StartDate}}<br />
+                Thời gian kết thúc: {{EndDate}}<br />
+            </small>
+        </div>
+        <div class="project-stage-content">
+            <div class="project-stage-content-header d-flex justify-content-between">
+                <span class="text-primary">1. Mục đích</span>
+            </div>
+            <small>
+                {{{Intent}}}
+            </small>
+        </div>
+        <div class="project-stage-content">
+            <div class="project-stage-content-header">
+                <span class="text-primary">3. Yêu cầu</span>
+            </div>
+            <small>{{{Request}}}</small>
+        </div>
+        <div class="project-stage-content">
+            <div class="project-stage-content-header d-flex justify-content-between">
+                <span class="text-primary">4. Bài nộp</span>
+                <button class="ml-auto button-update btn btn-primary btn-circle btn-sm" title="Xem bài nộp" data-id="36">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <small>
+                Trạng thái: {{SubmissionStatus}}<br />
+                {{{SubmissionDate}}}
+            </small>
+        </div>
+
+        <div>
+            <button data-id="{{Id}}" class="button-update-project-stage mb-2 btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-edit"></i>
+                </span>
+                <span class="text">Cập nhật thông tin giai đoạn</span>
+            </button>
+            <button data-id="{{Id}}" class="button-delete-project-stage mb-2 btn btn-danger btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span class="text">Xóa giai đoạn</span>
+            </button>
+        </div>
+    </div>
+</script>
+
+<!-- Assembly View Modal -->
+<div class="modal fade" id="modalViewAssembly" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thành Viên Hội Đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 pb-2">
+                <table class="table table-bordered">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>Mã giảng viên</th>
+                            <th>Tên giảng viên</th>
+                            <th>Nhận xét</th>
+                            <th>Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CNTT001</td>
+                            <td>Võ Quốc Lương</td>
+                            <td>Chưa có</td>
+                            <td>Chưa chấm</td>
+                        </tr>
+                        <tr>
+                            <td>CNTT001</td>
+                            <td>Võ Quốc Lương</td>
+                            <td>Chưa có</td>
+                            <td>Chưa chấm</td>
+                        </tr>
+                        <tr>
+                            <td>CNTT001</td>
+                            <td>Võ Quốc Lương</td>
+                            <td>Chưa có</td>
+                            <td>Chưa chấm</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Update Project Modal -->
-<div class="modal" id="modalUpdateProject" tabindex="-1">
+<div class="modal fade" id="modalUpdateProject" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -166,33 +205,34 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="frmAddProject">
+                <form id="frmUpdateProject">
                     <div class="mb-3">
-                        <label class="form-label" for="txtName">Tên đề tài</label>
-                        <input class="form-control" id="txtName" />
+                        <label class="form-label" for="txtProjectName">Tên đề tài</label>
+                        <input class="form-control" id="txtProjectName" name="txtProjectName" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Loại đề tài</label>
-                        <select class="form-control" id="slTypeId">
+                        <label class="form-label">Loại đồ án</label>
+                        <select class="form-control" id="slProjectTypeId" name="slTypeId">
+                            <option value="">-- Chọn loại đề tài --</option>
                             <option value="1">Đồ án tốt nghiệp</option>
                             <option value="2">Khóa luận tốt nghiệp</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mã sinh viên</label>
-                        <input class="form-control" id="txtStudentId" />
-                        <div id="txtStudentName"></div>
+                        <input class="form-control valid" id="txtStudentId" name="txtStudentId" />
+                        <label id="txtStudentName" name="txtStudentName" class="valid">Không tìm thấy sinh viên</label>
                     </div>
                     <div class="mb-3">
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Ngày bắt đầu</label>
-                                <input id="dtStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <input id="dtProjectStartDate" name="dtProjectStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="col">
                                 <label class="form-label">Giờ </label>
-                                <select id="slStartHour" class="form-control">
-                                    @for (int i = 1; i <= 24; i++)
+                                <select id="slProjectStartHour" name="slProjectStartHour" class="form-control">
+                                    @for (int i = 0; i <= 24; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -200,8 +240,8 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Phút </label>
-                                <select id="slStartMinute" class="form-control">
-                                    @for (int i = 1; i <= 60; i++)
+                                <select id="slProjectStartMinute" name="slProjectStartMinute" class="form-control">
+                                    @for (int i = 0; i <= 60; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -214,12 +254,12 @@
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Ngày kết thúc</label>
-                                <input id="dtEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <input id="dtProjectEndDate" name="dtProjectEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="col">
                                 <label class="form-label">Giờ </label>
-                                <select id="slEndHour" class="form-control">
-                                    @for (int i = 1; i <= 24; i++)
+                                <select id="slProjectEndHour" name="slProjectEndHour" class="form-control">
+                                    @for (int i = 0; i <= 24; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -227,8 +267,8 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Phút </label>
-                                <select id="slEndMinute" class="form-control">
-                                    @for (int i = 1; i <= 60; i++)
+                                <select id="slProjectEndMinute" name="slProjectEndMinute" class="form-control">
+                                    @for (int i = 0; i <= 60; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -248,30 +288,30 @@
 </div>
 
 <!-- Update Project Stage Model -->
-<div class="modal" id="modalUpdateProjectStage" tabindex="-1">
+<div class="modal fade" id="modalUpdateProjectStage" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Thêm Mới Giai Đoạn</h5>
+                <h5 class="modal-title" id="modalUpdateProjectStageTitle">Thêm Mới Giai Đoạn</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="frmAddProject">
-                    <input type="number" id="nbrProjectId" hidden />
+                <form id="frmUpdateProjectStage">
+                    <input id="nbrProjectStageId" type="number" hidden />
                     <div class="mb-3">
-                        <label class="form-label" for="txtName">Tên giai đoạn</label>
-                        <input class="form-control" id="txtName" />
+                        <label class="form-label">Tên giai đoạn</label>
+                        <input class="form-control" id="txtProjectStageName" />
                     </div>
                     <div class="mb-3">
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Ngày bắt đầu</label>
-                                <input id="dtStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <input id="dtProjectStageStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="col">
                                 <label class="form-label">Giờ </label>
-                                <select id="slStartHour" class="form-control">
-                                    @for (int i = 1; i <= 24; i++)
+                                <select id="slProjectStageStartHour" class="form-control">
+                                    @for (int i = 0; i < 24; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -279,8 +319,8 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Phút </label>
-                                <select id="slStartMinute" class="form-control">
-                                    @for (int i = 1; i <= 60; i++)
+                                <select id="slProjectStageStartMinute" class="form-control">
+                                    @for (int i = 0; i < 60; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -293,12 +333,12 @@
                         <div class="row">
                             <div class="col">
                                 <label class="form-label">Ngày kết thúc</label>
-                                <input id="dtEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <input id="dtProjectStageEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                             </div>
                             <div class="col">
                                 <label class="form-label">Giờ </label>
-                                <select id="slEndHour" class="form-control">
-                                    @for (int i = 1; i <= 24; i++)
+                                <select id="slProjectStageEndHour" class="form-control">
+                                    @for (int i = 0; i < 24; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -306,8 +346,8 @@
                             </div>
                             <div class="col">
                                 <label class="form-label">Phút </label>
-                                <select id="slEndMinute" class="form-control">
-                                    @for (int i = 1; i <= 60; i++)
+                                <select id="slProjectStageEndMinute" class="form-control">
+                                    @for (int i = 0; i < 60; i++)
                                     {
                                         <option value="@i">@i</option>
                                     }
@@ -317,11 +357,11 @@
 
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="txtName">Mục đích</label>
+                        <label class="form-label">Mục đích</label>
                         <input class="form-control" id="txtIntent" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="txtName">Yêu cầu</label>
+                        <label class="form-label">Yêu cầu</label>
                         <input class="form-control" id="txtRequest" />
                     </div>
                 </form>

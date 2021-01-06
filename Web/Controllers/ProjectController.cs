@@ -20,46 +20,9 @@ namespace Web.Controllers
 
         public ActionResult Detail(long id)
         {
-            Project model = dao.GetProject(id, "", "", "", 0, 0, 0, 0, 0, 0, 0);
-            return View(model);
+            ViewBag.Id = id;
+            return View();
         }
 
-        public JsonResult GetProjects(string name = "", string student = "", long projectTypeId = 0, int year = 0, long classId = 0, int page = 0, int pageSize = 0)
-        {
-            var data = dao.GetProjects(name, student, "GV74801030126", projectTypeId, year, 0, 0, classId, page, pageSize);
-            var totalRow = dao.CountProject(name, student, "GV74801030126", projectTypeId, year, 0, 0, classId);
-            var status = totalRow > -1 ? true : false;
-
-            return Json(new
-            {
-                status = status,
-                data = data,
-                totalRow = totalRow
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult Insert(Project model)
-        {
-            model.LecturerId = 1;
-
-            var status = dao.Insert(model);
-
-            return Json(new
-            {
-                status = status
-            });
-        }
-
-        [HttpPost]
-        public JsonResult Delete(long id)
-        {
-            var status = dao.Delete(id);
-
-            return Json(new
-            {
-                status = status
-            });
-        }
     }
 }

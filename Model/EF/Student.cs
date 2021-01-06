@@ -2,9 +2,7 @@ namespace Model.EF
 {
     public class Student
     {
-        public long Id { get; set; }
-
-        public string Username { get; set; }
+        public string Id { get; set; }
 
         public string Password { get; set; }
 
@@ -22,21 +20,19 @@ namespace Model.EF
 
         public string Email { get; set; }
 
-        public long ClassId { get; set; }
+        public string ClassId { get; set; }
 
-        public string Class { get; set; }
+        public string BranchId { get; set; }
 
-        public long BranchId { get; set; }
+        public string BranchName { get; set; }
 
-        public string Branch { get; set; }
+        public string FacultyId { get; set; }
 
-        public long FacultyId { get; set; }
+        public string FacultyName { get; set; }
 
-        public string Faculty { get; set; }
+        public string TrainingSystemId { get; set; }
 
-        public long TrainingSystemId { get; set; }
-
-        public string TrainingSystem { get; set; }
+        public string TrainingSystemName { get; set; }
 
         public string CollegeYear { get; set; }
 

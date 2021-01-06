@@ -1,5 +1,7 @@
 namespace Model.EF
 {
+    using System.Web.Mvc;
+
     public class ProjectStage
     {
         public long Id { get; set; }
@@ -8,11 +10,15 @@ namespace Model.EF
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
-        public string CreatedDate { get; set; }
+        public string StartDate { get; set; }
 
         public string EndDate { get; set; }
+
+        [AllowHtml]
+        public string Intent { get; set; }
+
+        [AllowHtml]
+        public string Request { get; set; }
 
         public string SubmissionDate { get; set; }
 
@@ -20,6 +26,6 @@ namespace Model.EF
 
         public string Comment { get; set; }
 
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
     }
 }
