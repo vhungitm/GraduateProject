@@ -71,9 +71,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\AssemblyDAO.cs" />
+    <Compile Include="DAO\AssemblyDetailDAO.cs" />
+    <Compile Include="DAO\ProjectTypeDAO.cs" />
+    <Compile Include="DAO\ClassDAO.cs" />
+    <Compile Include="DAO\LecturerDAO.cs" />
     <Compile Include="DAO\ProjectDAO.cs" />
     <Compile Include="DAO\ProjectStageDAO.cs" />
     <Compile Include="DAO\StudentDAO.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="EF\Assembly.cs" />
     <Compile Include="EF\AssemblyDetail.cs" />
     <Compile Include="EF\Branch.cs" />
@@ -86,6 +92,7 @@
     <Compile Include="EF\ProjectType.cs" />
     <Compile Include="EF\Student.cs" />
     <Compile Include="EF\TranningSystem.cs" />
+    <Compile Include="EF\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

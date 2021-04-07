@@ -12,23 +12,11 @@ namespace Web.Areas.API
     {
         ProjectDAO dao = new ProjectDAO();
 
-        public JsonResult GetProject(long id)
+        public JsonResult Get(long id = 0, string name = "", string student = "", string lecturer = "", int projectTypeId = 0, int year = 0, string facultyId = "", string branchId = "", string classId = "", int pointStatus = 2, int page = 0, int pageSize = 0)
         {
-            var data = dao.GetProject(id);
-            var status = data != null ? true : false;
-
-            return Json(new
-            {
-                status = status,
-                data = data
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetProjects(string name = "", string student = "", string lecturer = "", int projectTypeId = 0, int year = 0, string facultyId = "", string branchId = "", string classId = "", int page = 0, int pageSize = 0)
-        {
-            var data = dao.GetProjects(name, student, lecturer, projectTypeId, year, facultyId, branchId, classId, page, pageSize);
-            var totalRow = dao.CountProject(name, student, lecturer, projectTypeId, year, facultyId, branchId, classId);
-            var status = totalRow > -1 ? true : false;
+            List<Project> data = dao.Get(id, name, student, lecturer, projectTypeId, year, facultyId, branchId, classId, pointStatus, page, pageSize);
+            long totalRow = dao.Count(id, name, student, lecturer, projectTypeId, year, facultyId, branchId, classId, pointStatus);
+            bool status = data.Count() > 0 ? true : false;
 
             return Json(new
             {
@@ -71,70 +59,20 @@ namespace Web.Areas.API
             });
         }
 
-        [HttpGet]
-        public JsonResult GetProjectStages(long projectId = 0, string name = "")
+        [HttpPost]
+        public JsonResult DeleteSelection(long [] id)
         {
-            var dao = new ProjectStageDAO();
+            int[] data = new int[id.Length];
 
-            var data = dao.GetProjectStages(projectId, name);
-            var status = data != null ? true : false;
+            for (int i = 0; i < id.Length; i++)
+            {
+                data[i] = dao.Delete( id[i] );
+            }
 
             return Json(new
             {
-                status = status,
+                status = true,
                 data = data
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult GetProjectStage(long id = 0)
-        {
-            var dao = new ProjectStageDAO();
-
-            var data = dao.GetProjectStage(id);
-            var status = data != null ? true : false;
-
-            return Json(new
-            {
-                status = status,
-                data = data
-            }, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public JsonResult InsertProjectStage(ProjectStage model)
-        {
-            var dao = new ProjectStageDAO();
-            var status = dao.Insert(model);
-
-            return Json(new
-            {
-                status = status
-            });
-
-        }
-
-        [HttpPost]
-        public JsonResult UpdateProjectStage(ProjectStage model)
-        {
-            var dao = new ProjectStageDAO();
-            var status = dao.Update(model);
-
-            return Json(new
-            {
-                status = status
-            });
-
-        }
-
-        [HttpPost]
-        public JsonResult DeleteProjectStage(long id)
-        {
-            var dao = new ProjectStageDAO();
-            var status = dao.Delete(id);
-
-            return Json(new
-            {
-                status = status
             });
         }
     }

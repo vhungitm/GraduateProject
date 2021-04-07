@@ -1059,14 +1059,6 @@ form.user .btn-user {
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
 }
 
-.error {
-  color: #5a5c69;
-  font-size: 7rem;
-  position: relative;
-  line-height: 1;
-  width: 12.5rem;
-}
-
 @-webkit-keyframes noise-anim {
   0% {
     clip: rect(32px, 9999px, 16px, 0);
@@ -1519,8 +1511,8 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 /* Custom */
 .project-card {
-    margin: 1rem;
-    padding: 1rem
+    margin: 2rem;
+    padding: 1.5rem 1.5rem 0 1.5rem
 }
 
 .project-content, .project-stage-content{
@@ -1533,15 +1525,39 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .project-stage {
     border-top: 1px solid #e4e4e4;
-    margin: 1.5rem 0 1.5rem 0;
+    margin: 0 0 1.5rem;
 }
 
 .project-stage-header {
-    padding: 1rem 0 1rem 0;
+    padding: 2rem 0 1rem 0;
     text-align: center
 }
 
 .project-tool {
     border-top: 1px solid #e4e4e4;
     padding-top: 1rem
+}
+
+/* Submission */
+.submission {
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 0.5rem
+}
+
+.submission-secondary {
+    border: 1px solid #333;
+    background: #f5f5f5;
+}
+
+.submission-primary {
+    border: 1px solid #0094ff;
+    background: #e7f3ff;
+    color: #0d6efd;
+}
+
+.submission-danger {
+    border: 1px solid #ff0000;
+    background: #ffe5e5;
+    color: #ff0000;
 }

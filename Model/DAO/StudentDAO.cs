@@ -16,7 +16,7 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<Student> CountStudent(string Id, string fullName, string facultyId, string branchId, string classId, string trainingSystemId)
+        public long Count(string Id, string fullName, string facultyId, string branchId, string classId, string trainingSystemId)
         {
             try
             {
@@ -30,12 +30,12 @@ namespace Model.DAO
                     new SqlParameter("@TrainingSystemId", trainingSystemId)
                 };
 
-                return db.Database.SqlQuery<Student>("uspGetStudents @Id, @FullName, @FacultyId, @BranchId, @ClassId, @TrainingSystemId", sqlParameters).ToList();
+                return db.Database.SqlQuery<long>("uspCountStudent @Id, @FullName, @FacultyId, @BranchId, @ClassId, @TrainingSystemId", sqlParameters).SingleOrDefault();
             }
-            catch (Exception) { return null; }
+            catch (Exception) { return 0; }
         }
 
-        public List<Student> GetStudents(string Id, string fullName, string facultyId, string branchId, string classId, string trainingSystemId, int page, int pageSize)
+        public List<Student> Get(string Id, string fullName, string facultyId, string branchId, string classId, string trainingSystemId, int page, int pageSize)
         {
             try
             {
@@ -52,17 +52,6 @@ namespace Model.DAO
                 };
 
                 return db.Database.SqlQuery<Student>("uspGetStudents @Id, @FullName, @FacultyId, @BranchId, @ClassId, @TrainingSystemId, @Page, @PageSize", sqlParameters).ToList();
-            }
-            catch (Exception) { return null; }
-        }
-
-        public Student GetStudent(string id)
-        {
-            try
-            {
-                SqlParameter sqlParameter = new SqlParameter("@Id", id);
-
-                return db.Database.SqlQuery<Student>("uspGetStudent @Id", sqlParameter).SingleOrDefault();
             }
             catch (Exception) { return null; }
         }

@@ -14,6 +14,8 @@ namespace Model.EF
 
         public string StudentName { get; set; }
 
+        public string ClassId { get; set; }
+
         public string LecturerId { get; set; }
 
         public string LecturerName { get; set; }

@@ -1,1 +1,57 @@
-﻿Trang chủ
+﻿@{
+    ViewBag.Title = "TDMU - Đăng nhập hệ thống";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title</title>
+
+    <!-- Icon Title -->
+    <link rel="icon" href="~/Images/tdmu-logo.png" type="image/x-icon">
+
+    <!-- Css -->
+    <link href="~/Plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+</head>
+<body>
+    <div style="width: 400px" class="mx-auto my-5 border bg-white rounded-3">
+        <div style="position: relative">
+            <center class="mt-4 border-bottom pb-5">
+                <img src="~/Images/tdmu-logo.png" width="80" height="80" class="mb-3">
+                <div style="position: absolute; top: 100px; left: 160px;">
+                    <img src="~/Images/no-avatar.png" width="80" height="80" class="bg-white rounded-circle" />
+                </div>
+            </center>
+        </div>
+        <form id="frmLogin" class="mx-5 mt-3">
+            <div class="mb-3">
+                <label class="form-label mt-5">Tài khoản</label>
+                <input type="text" class="form-control" id="txtUsername" name="txtUsername" placeholder="Mã sinh viên / Cán bộ giảng viên">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mật khẩu</label>
+                <input type="password" class="form-control" id="txtPassword" name="txtPassword" placeholder="********">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="ckbRemember">
+                <label class="form-check-label" for="ckbRemember">Nhớ tài khoản</label>
+            </div>
+        </form>
+        <div class="mx-5 mb-4">
+            <div class="d-grid">
+                <button id="btnLogin" class="btn btn-primary mb-3">Đăng nhập</button>
+            </div>
+            <center><a href="/Login/Remember">Quên mật khẩu?</a></center>
+        </div>
+    </div>
+
+    <script src="~/Plugins/bootbox/bootbox.all.min.js"></script>
+    <script src="~/Scripts/Client/User/loginController.js"></script>
+</body>
+</html>

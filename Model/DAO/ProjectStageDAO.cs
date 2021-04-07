@@ -17,62 +17,69 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public List<ProjectStage> GetProjectStages(long projectId, string name)
+        public List<ProjectStage> Get(long id, long projectId, string name)
         {
+            try
+            {
                 SqlParameter[] sqlParameters = new SqlParameter[]
                 {
+                    new SqlParameter("@Id", id),
                     new SqlParameter("@ProjectId", projectId),
                     new SqlParameter("@Name", name)
                 };
 
-            return db.Database.SqlQuery<ProjectStage>("uspGetProjectStages @ProjectId, @Name", sqlParameters).ToList();
-        }
-
-        public ProjectStage GetProjectStage(long id)
-        {
-            SqlParameter sqlParameter = new SqlParameter("@Id", id);
-
-            return db.Database.SqlQuery<ProjectStage>("uspGetProjectStage @Id", sqlParameter).SingleOrDefault();
+                return db.Database.SqlQuery<ProjectStage>("uspGetProjectStages @Id, @ProjectId, @Name", sqlParameters).ToList();
+            }
+            catch (Exception) { return new List<ProjectStage>(); }
         }
 
         public int Insert(ProjectStage entity)
         {
-            SqlParameter[] sqlParameters = new SqlParameter[]
+            try
             {
-                new SqlParameter("@ProjectId", entity.ProjectId),
-                new SqlParameter("@Name", entity.Name),
-                new SqlParameter("@StartDate", entity.StartDate),
-                new SqlParameter("@EndDate", entity.EndDate),
-                new SqlParameter("@Intent", entity.Intent),
-                new SqlParameter("@Request", entity.Request)
-            };
+                SqlParameter[] sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("@ProjectId", entity.ProjectId),
+                    new SqlParameter("@Name", entity.Name),
+                    new SqlParameter("@StartDate", entity.StartDate),
+                    new SqlParameter("@EndDate", entity.EndDate),
+                    new SqlParameter("@Intent", entity.Intent),
+                    new SqlParameter("@Request", entity.Request)
+                };
 
-            return db.Database.ExecuteSqlCommand("uspInsertProjectStage @ProjectId, @Name, @StartDate, @EndDate, @Intent, @Request", sqlParameters);
+                return db.Database.ExecuteSqlCommand("uspInsertProjectStage @ProjectId, @Name, @StartDate, @EndDate, @Intent, @Request", sqlParameters);
+            }
+            catch (Exception) { return 0; }
         }
 
         public int Update (ProjectStage entity)
         {
-            SqlParameter[] sqlParameters = new SqlParameter[]
+            try
             {
-                new SqlParameter("@Id", entity.Id),
-                new SqlParameter("@Name", entity.Name != null ? entity.Name : ""),
-                new SqlParameter("@StartDate", entity.StartDate != null ? entity.StartDate : ""),
-                new SqlParameter("@EndDate", entity.EndDate != null ? entity.EndDate : ""),
-                new SqlParameter("@Intent", entity.Intent != null ? entity.Intent : ""),
-                new SqlParameter("@Request", entity.Request != null ? entity.Request : ""),
-                new SqlParameter("@Submission", entity.Submission != null ? entity.Submission : ""),
-                new SqlParameter("@Comment", entity.Comment != null ? entity.Comment : ""),
-                new SqlParameter("@Status", entity.Status != null ? (entity.Status == true ? 1 : 0 ) : -1)
-            };
+                SqlParameter[] sqlParameters = new SqlParameter[]
+                {
+                    new SqlParameter("@Id", entity.Id),
+                    new SqlParameter("@Name", entity.Name != null ? entity.Name : ""),
+                    new SqlParameter("@StartDate", entity.StartDate != null ? entity.StartDate : ""),
+                    new SqlParameter("@EndDate", entity.EndDate != null ? entity.EndDate : ""),
+                    new SqlParameter("@Intent", entity.Intent != null ? entity.Intent : ""),
+                    new SqlParameter("@Request", entity.Request != null ? entity.Request : ""),
+                    new SqlParameter("@Submission", entity.Submission != null ? entity.Submission : ""),
+                    new SqlParameter("@Comment", entity.Comment != null ? entity.Comment : "")
+                };
 
-            return db.Database.ExecuteSqlCommand("uspUpdateProjectStage @Id, @Name, @StartDate, @EndDate, @Intent, @Request, @Submission, @Comment, @Status", sqlParameters);
+                return db.Database.ExecuteSqlCommand("uspUpdateProjectStage @Id, @Name, @StartDate, @EndDate, @Intent, @Request, @Submission, @Comment", sqlParameters);
+            } catch (Exception) { return 0; }
         }
 
         public int Delete(long id)
         {
-            SqlParameter sqlParameter = new SqlParameter("@Id", id);
+            try
+            {
+                SqlParameter sqlParameter = new SqlParameter("@Id", id);
 
-            return db.Database.ExecuteSqlCommand("uspDeleteProjectStage @Id", sqlParameter);
+                return db.Database.ExecuteSqlCommand("uspDeleteProjectStage @Id", sqlParameter);
+            } catch (Exception) { return 0; }
         }
     }
 }

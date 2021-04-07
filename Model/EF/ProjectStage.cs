@@ -24,8 +24,7 @@ namespace Model.EF
 
         public string Submission { get; set; }
 
+        [AllowHtml]
         public string Comment { get; set; }
-
-        public bool? Status { get; set; }
     }
 }

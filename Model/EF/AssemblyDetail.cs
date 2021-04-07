@@ -4,9 +4,9 @@ namespace Model.EF
     {
         public long AssemblyId { get; set; }
 
-        public long LecturerId { get; set; }
+        public string LecturerId { get; set; }
 
-        public string Comment { get; set; }
+        public string LecturerName { get; set; }
 
         public double? Point { get; set; }
     }

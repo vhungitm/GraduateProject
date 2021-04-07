@@ -20,9 +20,15 @@ namespace Model.EF
 
         public string Email { get; set; }
 
+        public string BranchId { get; set; }
+
+        public string BranchName { get; set; }
+
         public string FacultyId { get; set; }
 
-        public string Faculty { get; set; }
+        public string FacultyName { get; set; }
+
+        public long GroupId { get; set; }
 
         public bool Status { get; set; }
     }

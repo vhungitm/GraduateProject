@@ -12,29 +12,17 @@ namespace Web.Areas.API.Controllers
     {
         StudentDAO dao = new StudentDAO();
 
-        public JsonResult GetStudents(string id = "", string fullName = "", string facultyId = "", string branchId = "", string classId = "", string trainingSystemId = "", int page = 0, int pageSize = 0)
+        public JsonResult Get(string id = "", string fullName = "", string facultyId = "", string branchId = "", string classId = "", string trainingSystemId = "", int page = 0, int pageSize = 0)
         {
-            var data = dao.GetStudents(id, fullName, facultyId, branchId, classId, trainingSystemId, page, pageSize);
-            var status = data != null ? true : false;
-            var totalRow = dao.CountStudent(id, fullName, facultyId, branchId, classId, trainingSystemId);
+            List<Student> data = dao.Get(id, fullName, facultyId, branchId, classId, trainingSystemId, page, pageSize);
+            long totalRow = dao.Count(id, fullName, facultyId, branchId, classId, trainingSystemId);
+            bool status = data.Count() > 0 ? true : false;
 
             return Json(new
             {
                 status = status,
                 data = data,
                 totalRow = totalRow
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetStudent(string id)
-        {
-            var data = dao.GetStudent(id);
-            var status = data != null ? true : false;
-
-            return Json(new
-            {
-                status = status,
-                data = data
             }, JsonRequestBehavior.AllowGet);
         }
     }

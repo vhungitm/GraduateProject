@@ -14,26 +14,13 @@ namespace Model.DAO
             db = new DBContext();
         }
 
-        public Project GetProject(long id)
-        {
-            try
-            {
-                SqlParameter sqlParameter = new SqlParameter("@Id", id);
-
-                return db.Database.SqlQuery<Project>("uspGetProject @Id", sqlParameter).SingleOrDefault();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public List<Project> GetProjects(string name, string student, string lecturer, long projectTypeId, int year, string facultyId, string branchId, string classId, int page, int pageSize)
+        public List<Project> Get(long id, string name, string student, string lecturer, long projectTypeId, int year, string facultyId, string branchId, string classId, int pointStatus, int page, int pageSize)
         {
             try
             {
                 SqlParameter[] sqlParameters = new SqlParameter[]
                 {
+                    new SqlParameter("@Id", id),
                     new SqlParameter("@Name", name),
                     new SqlParameter("@Student", student),
                     new SqlParameter("@Lecturer", lecturer),
@@ -42,24 +29,26 @@ namespace Model.DAO
                     new SqlParameter("@FacultyId", facultyId),
                     new SqlParameter("@BranchId", branchId),
                     new SqlParameter("@ClassId", classId),
+                    new SqlParameter("@PointStatus", pointStatus),
                     new SqlParameter("@Page", page),
                     new SqlParameter("@PageSize", pageSize),
                 };
 
-                return db.Database.SqlQuery<Project>("uspGetProjects @Name, @Student, @Lecturer, @ProjectTypeId, @Year, @FacultyId, @BranchId, @ClassId, @Page, @PageSize", sqlParameters).ToList();
+                return db.Database.SqlQuery<Project>("uspGetProjects @Id, @Name, @Student, @Lecturer, @ProjectTypeId, @Year, @FacultyId, @BranchId, @ClassId, @PointStatus, @Page, @PageSize", sqlParameters).ToList();
             }
             catch (Exception)
             {
-                return null;
+                return new List<Project>();
             }
         }
 
-        public int CountProject(string name, string student, string lecturer, long projectTypeId, int year, string facultyId, string branchId, string classId)
+        public int Count(long id, string name, string student, string lecturer, long projectTypeId, int year, string facultyId, string branchId, string classId, int pointStatus)
         {
             try
             {
                 SqlParameter[] sqlParameters = new SqlParameter[]
                 {
+                    new SqlParameter("@Id", id),
                     new SqlParameter("@Name", name),
                     new SqlParameter("@Student", student),
                     new SqlParameter("@Lecturer", lecturer),
@@ -67,10 +56,11 @@ namespace Model.DAO
                     new SqlParameter("@Year", year),
                     new SqlParameter("@FacultyId", facultyId),
                     new SqlParameter("@BranchId", branchId),
-                    new SqlParameter("@ClassId", classId)
+                    new SqlParameter("@ClassId", classId),
+                    new SqlParameter("@PointStatus", pointStatus)
                 };
 
-                return db.Database.SqlQuery<int>("uspCountProject @Name, @Student, @Lecturer, @ProjectTypeId, @Year, @FacultyId, @BranchId, @ClassId", sqlParameters).SingleOrDefault();
+                return db.Database.SqlQuery<int>("uspCountProject @Id, @Name, @Student, @Lecturer, @ProjectTypeId, @Year, @FacultyId, @BranchId, @ClassId, @PointStatus", sqlParameters).SingleOrDefault();
             }
             catch (Exception)
             {
@@ -92,7 +82,7 @@ namespace Model.DAO
                     new SqlParameter("@EndDate", entity.EndDate)
                 };
 
-                return db.Database.ExecuteSqlCommand("uspInsertProject @Name, @TypeId, @StudentId, @LecturerId, @StartDate, @EndDate", sqlParameters);
+                return db.Database.SqlQuery<int>("uspInsertProject @Name, @TypeId, @StudentId, @LecturerId, @StartDate, @EndDate", sqlParameters).SingleOrDefault();
             }
             catch (Exception)
             {
@@ -106,7 +96,7 @@ namespace Model.DAO
                 {
                     new SqlParameter("@Id", entity.Id),
                     new SqlParameter("@Name", entity.Name == null ? "" : entity.Name),
-                    new SqlParameter("@TypeId", entity.TypeId == null ? 0 : entity.TypeId),
+                    new SqlParameter("@TypeId", entity.TypeId == null ? (long) 0 : entity.TypeId),
                     new SqlParameter("@StudentId", entity.StudentId == null ? "" : entity.StudentId),
                     new SqlParameter("@StartDate", entity.StartDate == null ? "" : entity.StartDate),
                     new SqlParameter("@EndDate", entity.EndDate == null ? "" : entity.EndDate),
@@ -114,7 +104,7 @@ namespace Model.DAO
                     new SqlParameter("@Point", entity.Point == null ? 0 : entity.Point)
                 };
 
-                return db.Database.ExecuteSqlCommand("uspUpdateProject @Id, @Name, @TypeId, @StudentId, @StartDate, @EndDate, @Submission, @Point", sqlParameters);
+                return db.Database.SqlQuery<int>("uspUpdateProject @Id, @Name, @TypeId, @StudentId, @StartDate, @EndDate, @Submission, @Point", sqlParameters).SingleOrDefault();
         }
 
         public int Delete(long id)

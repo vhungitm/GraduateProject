@@ -1,11 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Danh Sách Sinh Viên";
+    ViewBag.Title = "Danh Sách Đề Tài";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var user = (Model.EF.User)Session["USER_SESSION"];
 }
 
 @section Scripts
 {
-    <script>var branchId = 'KTPM';</script>
+    <script>
+        var facultyId = @Html.Raw("'" + user.FacultyId + "'");
+        var branchId = @Html.Raw("'" + user.BranchId + "'");
+    </script>
     <script src="~/Scripts/Admin/Project/project.js"></script>
 }
 
@@ -13,8 +17,8 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Đề Tài</h1>
     <div>
-        <button id="btnCheckAll" class="btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-check fa-sm text-white-50"></i> Chọn Tất Cả
+        <button id="btnCheckAllProject" class="btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-check fa-sm text-white-50"></i> <span>Chọn tất cả</span>
         </button>
         <button id="btnDeleteProject" class="d-none">
             <i class="fas fa-trash fa-sm text-white-50"></i> Xóa
@@ -24,7 +28,7 @@
         </button>
     </div>
 </div>
-<!-- End of Page Header -->
+
 <!-- Content -->
 <div class="card shadow mb-4">
 
@@ -32,200 +36,162 @@
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Danh Sách</h6>
     </div>
-    <!-- End of Content Header -->
+
     <!-- Content Body -->
     <div class="card-body">
         <div class="table-responsive">
-            <div class="form-inline mb-3" id="filter"></div>
-            <table class="table table-bordered" id="tblData" width="100%" cellspacing="0"></table>
+            <div class="form-inline" id="projectFilter"></div>
+            <table class="table table-bordered" id="tblProject" width="100%" cellspacing="0"></table>
             <div id="pagination" class="pagination"></div>
+
+            <button id="btnExportExcel" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-download"></i>
+                </span>
+                <span class="text">Xuất ra Excel</span>
+            </button>
         </div>
+        
     </div>
-    <!-- End of Content Body -->
-
-    <div id="frmUpdate"></div>
-
-    <script id="tblHeader" type="x-tmpl-mustache">
-        <thead>
-            <tr align="center">
-                <th>Id</th>
-                <th>Tên đề tài</th>
-                <th>Thông tin</th>
-                <th>Hội đồng</th>
-                <th>Công cụ</th>
-            </tr>
-        </thead>
-    </script>
-
-    <script id="template" type="x-tmpl-mustache">
-        <tr>
-            <td>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="checkbox-item custom-control-input" id="ckb{{Id}}" value="{{Id}}">
-                    <label class="custom-control-label" for="ckb{{Id}}">{{Id}}</label>
-                </div>
-            </td>
-            <td>{{Name}}</td>
-            <td>
-                Sinh viên thực hiện: {{StudentName}}<br />
-                Giảng viên hướng dẫn: {{LecturerName}}<br />
-                Thời gian bắt đầu: {{StartDate}}<br />
-                Thời gian kết thúc: {{EndDate}}<br />
-            </td>
-            <td>
-                {{{AssemblyName}}}
-                {{{AssemblyCreatedDate}}}
-            </td>
-            <td align="center">
-                <button class="button-update-project btn btn-primary btn-circle btn-sm" title="Cập nhật" data-id="{{Id}}">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="button-delete-project btn btn-danger btn-circle btn-sm" title="Xóa" data-id="{{Id}}">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-    </script>
-
-    <script id="filterContent" type="x-tmpl-mustache">
-        <div class="row row-cols-lg-auto g-3 align-items-center mb-3">
-            <div class="col-12">
-                <input id="txtNameSearch" type="text" class="form-control" placeholder="Tên đồ án">
-            </div>
-            <div class="col-12">
-                <input id="txtStudentSearch" type="text" class="form-control" placeholder="Tên / Mã số sinh viên">
-            </div>
-            <div class="col-12">
-                <input id="txtLecturerSearch" type="text" class="form-control" placeholder="Tên / Mã giảng viên">
-            </div>
-            <div class="col-12">
-                <select id="slYearSearch" class="form-control">
-                    <option>-- Chọn Năm Học --</option>
-                    @for (int i = 2013; i <= DateTime.Now.Year; i++)
-                    {
-                        <option value="@i">@i</option>
-                    }
-                </select>
-            </div>
-            <div class="col-12">
-                <select id="slClassIdSearch" class="form-control">
-                    <option value="">-- Chọn Lớp --</option>
-                    <option value="D17PM01">D17PM01</option>
-                    <option value="D17PM02">D17PM02</option>
-                </select>
-            </div>
-            <div class="col-12">
-                <button id="btnSearch" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <span class="text">Tìm kiếm</span>
-                </button>
-            </div>
-            <div id="btnReset" class="col-12">
-                <button class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-sync"></i>
-                    </span>
-                    <span class="text">Làm mới</span>
-                </button>
-            </div>
-        </div>
-    </script>
-
-    <script id="updateProjectContent" type="x-tmpl-mustache">
-        <div class="modal-body">
-            <form id="frmUpdateProject">
-                <div class="mb-3">
-                    <label class="form-label" for="txtProjectName">Tên đề tài</label>
-                    <input class="form-control" id="txtProjectName" name="txtProjectName" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Loại đồ án</label>
-                    <select class="form-control" id="slProjectTypeId" name="slTypeId">
-                        <option value="">-- Chọn loại đề tài --</option>
-                        <option value="1">Đồ án tốt nghiệp</option>
-                        <option value="2">Khóa luận tốt nghiệp</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Sinh viên thực hiện</label>
-                    <input class="form-control" id="txtStudentId" name="txtStudentId" placeholder="Mã sinh viên"/>
-                    <label id="txtStudentName" name="txtStudentName" class="valid" style="display: none">Không tìm thấy sinh viên</label>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Giảng viên hướng dẫn</label>
-                    <input class="form-control" id="txtLecturerId" name="txtLecturerId" placeholder="Mã giảng viên" />
-                    <label id="txtLecturerName" name="txtLecturerName" class="valid" style="display: none">Không tìm thấy giảng viên</label>
-                </div>
-
-                <div class="mb-3">
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">Ngày bắt đầu</label>
-                            <input id="dtProjectStartDate" name="dtProjectStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Giờ </label>
-                            <select id="slProjectStartHour" name="slProjectStartHour" class="form-control">
-                                @for (int i = 0; i <= 24; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Phút </label>
-                            <select id="slProjectStartMinute" name="slProjectStartMinute" class="form-control">
-                                @for (int i = 0; i <= 60; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="mb-3">
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">Ngày kết thúc</label>
-                            <input id="dtProjectEndDate" name="dtProjectEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Giờ </label>
-                            <select id="slProjectEndHour" name="slProjectEndHour" class="form-control">
-                                @for (int i = 0; i <= 24; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Phút </label>
-                            <select id="slProjectEndMinute" name="slProjectEndMinute" class="form-control">
-                                @for (int i = 0; i <= 60; i++)
-                                {
-                                    <option value="@i">@i</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Hủy</button>
-            <button id="btnSaveProject" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Hoàn thành</button>
-        </div>
-           
-    </script>
 </div>
 
+
+<!-- Modal Add / Update Assembly -->
+<script id="modalAddAssembly" type="x-tmpl-mustache">
+    <div class="modal-body">
+        <form id="frmAddAssembly">
+            <input type="number" id="nbrAssemblyId" hidden value="0"/>
+            <div class="mb-3">
+                <label class="form-label">Tên hội đồng</label>
+                <input class="form-control" id="txtAssemblyName" name="txtAssemblyName" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Thư ký</label>
+                <input class="form-control valid" id="txtLecturerId1" name="txtLecturerId1" placeholder="Mã giảng viên" readonly />
+                <label id="txtLecturerName1" name="txtLecturerName1" class="valid">Không tìm thấy giảng viên!</label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chủ tịch</label>
+                <input class="form-control" id="txtLecturerId2" name="txtLecturerId2" placeholder="Mã giảng viên" />
+                <label id="txtLecturerName2" name="txtLecturerName2" class="valid" style="display: none">Không tìm thấy giảng viên!</label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Thành viên</label>
+                <input class="form-control" id="txtLecturerId3" name="txtLecturerId3" placeholder="Mã giảng viên" />
+                <label id="txtLecturerName3" name="txtLecturerName3" class="valid" style="display: none">Không tìm thấy giảng viên!</label>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Hủy</button>
+        <button id="btnSaveAssembly" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Hoàn thành</button>
+    </div>
+</script>
+
+<!-- Modal View Assembly -->
+<div id="modalViewAssembly" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalViewAssemblyTitle">Thông Tin Hội Đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    Ngày thành lập: <span id="txtAssemblyCreatedDate"></span>
+                </div>
+
+                <div class="mb-3">
+                    <button data-id="0" id="btnUpdateAssembly" class="btn btn-primary btn-icon-split mt-3">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-edit"></i>
+                        </span><span class="text">
+                            Cập nhật thông tin
+                        </span>
+                    </button>
+                    <button data-id="0" id="btnInputPoint" class="btn btn-primary btn-icon-split mt-3">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
+                        </span><span class="text">
+                            Nhập điểm
+                        </span>
+                    </button>
+                    <button data-id="0" id="btnDeleteAssembly" class="btn btn-danger btn-icon-split mt-3">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                        </span><span class="text">
+                            Xóa hội đồng
+                        </span>
+                    </button>
+                </div>
+
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã giảng viên</th>
+                            <th>Tên giảng viên</th>
+                            <th>Vai trò</th>
+                            <th>Điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assemblyData"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assembly Item -->
+<script id="assemblyItem" type="x-tmpl-mustache">
+    <tr>
+        <td>{{LecturerId}}</td>
+        <td>{{LecturerName}}</td>
+        <td>{{Permission}}</td>
+        <td>{{Point}}</td>
+    </tr>
+</script>
+
+<!-- Modal Input Point -->
+<script id="modalInputPoint" type="x-tmpl-mustache">
+    <div class="modal-body">
+        <form id="frmInputPoint">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Giảng viên</th>
+                        <th class="lecturer-name-1"></th>
+                        <th class="lecturer-name-2"></th>
+                        <th class="lecturer-name-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Điểm</th>
+                        
+                        <td>
+                            <input type="number" id="nbrPoint1" name="nbrPoint1" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="number" id="nbrPoint2" name="nbrPoint2" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="number" id="nbrPoint3" name="nbrPoint3" class="form-control" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="assemblyData"></tbody>
+            </table>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Hủy</button>
+        <button id="btnSavePoint" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Hoàn thành</button>
+    </div>
+</script>
+<!-- -->
+
 <!-- Modal -->
-<div id="modal" class="modal fade" tabindex="-1">
+<div id="modal" class="modal fade" tabindex="-2">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -236,3 +202,197 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Add / Update Project -->
+<script id="modalUpdateProject" type="x-tmpl-mustache">
+    <div class="modal-body">
+        <form id="frmUpdateProject">
+            <input id="nbrId" value="0" hidden />
+            <div class="mb-3">
+                <label class="form-label" for="txtProjectName">Tên đề tài</label>
+                <input class="form-control" id="txtProjectName" name="txtProjectName" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Loại đồ án</label>
+                <select class="form-control" id="slProjectTypeId" name="slProjectTypeId">
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Sinh viên thực hiện</label>
+                <input class="form-control" id="txtStudentId" name="txtStudentId" placeholder="Mã sinh viên" />
+                <label id="txtStudentName" name="txtStudentName" class="valid" style="display: none">Không tìm thấy sinh viên!</label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giảng viên hướng dẫn</label>
+                <input class="form-control" id="txtLecturerId" name="txtLecturerId" placeholder="Mã giảng viên" />
+                <label id="txtLecturerName" name="txtLecturerName" class="valid" style="display: none">Không tìm thấy giảng viên!</label>
+            </div>
+
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Ngày bắt đầu</label>
+                        <input id="dtProjectStartDate" name="dtProjectStartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Giờ </label>
+                        <select id="slProjectStartHour" name="slProjectStartHour" class="form-control">
+                            @for (int i = 0; i <= 24; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Phút </label>
+                        <select id="slProjectStartMinute" name="slProjectStartMinute" class="form-control">
+                            @for (int i = 0; i <= 60; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Ngày kết thúc</label>
+                        <input id="dtProjectEndDate" name="dtProjectEndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Giờ </label>
+                        <select id="slProjectEndHour" name="slProjectEndHour" class="form-control">
+                            @for (int i = 0; i <= 24; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Phút </label>
+                        <select id="slProjectEndMinute" name="slProjectEndMinute" class="form-control">
+                            @for (int i = 0; i <= 60; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Hủy</button>
+        <button id="btnSaveProject" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Hoàn thành</button>
+    </div>
+</script>
+
+<!-- Filter Project -->
+<script id="projectFilterContent" type="x-tmpl-mustache">
+    <div class="row row-cols-lg-auto g-3 mb-3 me-0" width="100%">
+        <div class="col-12">
+            <input id="txtNameSearch" type="text" class="form-control" placeholder="Tên đồ án">
+        </div>
+        <div class="col-12">
+            <input id="txtStudentSearch" type="text" class="form-control" placeholder="Tên / Mã số sinh viên">
+        </div>
+        <div class="col-12">
+            <input id="txtLecturerSearch" type="text" class="form-control" placeholder="Tên / Mã giảng viên">
+        </div>
+        <div class="col-12">
+            <select id="slProjectTypeIdSearch" class="form-control"></select>
+        </div>
+        <div class="col-12">
+            <select id="slYearSearch" class="form-control">
+                <option value="0">-- Chọn năm học --</option>
+                @for (int i = 2015; i <= DateTime.Now.Year; i++)
+                {
+                    <option value="@i">@i</option>
+                }
+            </select>
+        </div>
+        <div class="col-12">
+            <select id="slClassIdSearch" class="form-control"></select>
+        </div>
+        <div class="col-12">
+            <select id="slPointStatusSearch" class="form-control">
+                <option value="2">-- Chọn trạng thái chấm điểm --</option>
+                <option value="1">Đã chấm điểm</option>
+                <option value="0">Chưa chấm điểm</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <button id="btnSearch" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span class="text">Tìm kiếm</span>
+            </button>
+        </div>
+        <div id="btnReset" class="col-12">
+            <button class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-sync"></i>
+                </span>
+                <span class="text">Làm mới</span>
+            </button>
+        </div>
+    </div>
+</script>
+
+<!-- Project Table Header -->
+<script id="tblProjectHeader" type="x-tmpl-mustache">
+    <thead>
+        <tr align="center">
+            <th width="15"></th>
+            <th>Id</th>
+            <th width="300">Thông tin</th>
+            <th>Sinh viên thực hiện</th>
+            <th>Giảng viên hướng dẫn</th>
+            <th>Hội đồng</th>
+            <th width="100">Công cụ</th>
+        </tr>
+    </thead>
+</script>
+
+<!-- Project Item -->
+<script id="projectItem" type="x-tmpl-mustache">
+    <tr>
+        <td>
+            <input class="checkbox-item form-check-input" type="checkbox" value="{{Id}}">
+        </td>
+        <td>{{Id}}</td>
+        <td>
+            Tên đề tài: {{Name}}<br />
+            Thời gian bắt đầu: {{StartDate}}<br />
+            Thời gian kết thúc: {{EndDate}}<br />
+            Điểm: {{Point}}
+        </td>
+        <td>
+            Mã số sinh viên: {{StudentId}}<br />
+            Họ tên: {{StudentName}}<br />
+        </td>
+        <td>
+            Mã giảng viên: {{LecturerId}}<br />
+            Họ tên: {{LecturerName}}<br />
+        </td>
+        <td>
+            {{{AssemblyName}}}
+            {{{AssemblyCreatedDate}}}
+            {{{AssemblyButton}}}
+        </td>
+        <td align="center">
+            <button class="button-update-project btn btn-primary btn-circle btn-sm" title="Cập nhật" data-id="{{Id}}">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="button-delete-project btn btn-danger btn-circle btn-sm" title="Xóa" data-id="{{Id}}">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+</script>
+
